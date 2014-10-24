@@ -12,4 +12,12 @@ if($useLayout)
     <img src="imgs/logounsw.png" style="max-height: 20vh; max-width: 30%; display: inline-block"></img>
   </div>
 </div>
+
+<script>
+$(function()
+{
+	$("aside li").removeClass("active");
+	$("#dashboardtab").addClass("active");
+});
+</script>
 <?php if($useLayout) require_once("footer.php"); ?>

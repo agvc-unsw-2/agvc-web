@@ -61,4 +61,12 @@ $(function() {
 });
 </script>
 
+<script>
+$(function()
+{
+	$("aside li").removeClass("active");
+	$("#processtab").addClass("active");
+});
+</script>
+
 <?php if($useLayout) require_once("footer.php"); ?>

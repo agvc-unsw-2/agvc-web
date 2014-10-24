@@ -41,4 +41,15 @@ if($useLayout)
     <button type="button" class="btn btn-rounded btn-danger">Record</button> 
   </div>
 </div>
+
+
+<script>
+$(function()
+{
+	$("aside li").removeClass("active");
+	$("#logtab").addClass("active");
+});
+</script>
+
+
 <?php if($useLayout) require_once("footer.php"); ?>

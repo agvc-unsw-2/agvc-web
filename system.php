@@ -150,4 +150,15 @@ $(function() {
 </script>
 
 </div>
+
+
+<script>
+$(function()
+{
+	$("aside li").removeClass("active");
+	$("#systemtab").addClass("active");
+});
+</script>
+
+
 <?php if($useLayout) require_once("footer.php"); ?>

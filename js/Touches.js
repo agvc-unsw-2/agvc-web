@@ -38,6 +38,7 @@ window.requestAnimFrame = (function () {
 })();
 
 var touches; // collections of pointers
+var touchFirst;
 
 var canvas, c, crect; // c is the canvas' context 2D
 
@@ -61,18 +62,52 @@ function draw() {
     c.clearRect(0, 0, canvas.width, canvas.height);
 
     touches.forEach(function (touch) {
-        c.beginPath();
-        c.fillStyle = "white";
-        c.fillText(touch.type + " id : " + touch.identifier + " x:" + touch.x + " y:" + touch.y, touch.x + 30 - crect.left, touch.y - 30 - crect.top);
+//        c.beginPath();
+//        c.fillStyle = "white";
+//        c.fillText(touch.type + " id : " + touch.identifier + " x:" + touch.x + " y:" + touch.y, touch.x + 30 - crect.left, touch.y - 30 - crect.top);
 
         c.beginPath();
         c.strokeStyle = touch.color;
         c.lineWidth = "6";
         c.arc(touch.x - crect.left, touch.y - crect.top, 40, 0, Math.PI * 2, true);
         c.stroke();
+
+
+	var tFirst = touchFirst.item(touch.identifier);
+	c.beginPath();
+	c.moveTo(tFirst.x, tFirst.y);
+	c.lineTo(touch.x, touch.y);
+	c.stroke();
+
     });
 
-    requestAnimFrame(draw);
+    if(touchFirst.count == 1) {
+	touches.forEach(function(touch) {
+		var tFirst = touchFirst.item(touch.identifier);
+
+		var line = [touch.x - tFirst.x, touch.y - tFirst.y];
+		var cmd = {lin: -line[1] / 100, ang: -line[0] / 100};
+
+
+		if(Math.abs(cmd['lin']) < .05)
+			cmd['lin'] = 0;
+		if(Math.abs(cmd['ang']) < .05)
+			cmd['ang'] = 0;
+
+		if(Math.abs(cmd['ang']) > 2)
+			cmd['ang'] = 2 * Math.sign(cmd['ang']);
+		if(Math.abs(cmd['lin']) > 2)
+			cmd['lin'] = 2 * Math.sign(cmd['lin']);
+		   
+		
+		c.beginPath();
+		c.fillStyle = "white";
+		c.fillText("lin " + cmd['lin'] + " ang " + cmd['ang'] , touch.x + 50 - crect.left, touch.y - 50 - crect.top);
+
+	});
+    }
+
+    setTimeout(function() {requestAnimFrame(draw);}, 25);
 }
 
 function createPointerObject(event) {
@@ -97,6 +132,7 @@ function createPointerObject(event) {
 
 function onPointerDown(e) {
     touches.add(e.pointerId, createPointerObject(e));
+    touchFirst.add(e.pointerId, createPointerObject(e));
 }
 
 function onPointerMove(e) {
@@ -108,6 +144,7 @@ function onPointerMove(e) {
 
 function onPointerUp(e) {
     touches.remove(e.pointerId);
+    touchFirst.remove(e.pointerId);
 }
 
 $(function() { 
@@ -120,6 +157,8 @@ $(function() {
     crect = canvas.getBoundingClientRect();
 
     touches = new Collection();
+    touchFirst = new Collection();
+
     canvas.addEventListener('pointerdown', onPointerDown, false);
     canvas.addEventListener('pointermove', onPointerMove, false);
     canvas.addEventListener('pointerup', onPointerUp, false);
