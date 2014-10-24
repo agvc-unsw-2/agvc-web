@@ -9,12 +9,44 @@ if($useLayout)
   <img src="<?= LOGO_URL?>" style="max-height: 10vh; max-width: 80%; display: block"></img>
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
+      <div class="panel-heading"><h3 class="panel-title"> Camera </h3></div>
+      <div class="panel-body">
+        <img id="camera1" src="data/frame0001.jpg" style="max-width: 100%">
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Lidar </h3></div>
       <div class="panel-body">
         <div id="lidar"></div>              
       </div>
     </div>
   </div>
+
+  <div class="col-md-6">
+    <div id="panel-lidar" class="panel panel-default">
+      <div class="panel-heading"><h3 class="panel-title"> Platform </h3></div>
+      <div class="panel-body">
+        <form class="form-horizontal form-bordered">
+          <div class="form-group">
+            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encolin">Battery (v)</label>
+            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuy" disabled value="12.73"></div>
+            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encolin">E-Stop</label>
+            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuy" disabled value="false"></div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encolin">Linear Vel</label>
+            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuy" disabled value="-0.0013"></div>
+            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encoang">Angular Vel</label>
+            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuz" disabled value="0.03"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
@@ -43,23 +75,6 @@ if($useLayout)
       </div>
     </div>
   </div>
-
-  <div class="col-md-6">
-    <div id="panel-lidar" class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title"> Encoders </h3></div>
-      <div class="panel-body">
-        <form class="form-horizontal form-bordered">
-          <div class="form-group">
-            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encolin">Linear Vel</label>
-            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuy" disabled value="-0.0013"></div>
-            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encoang">Angular Vel</label>
-            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuz" disabled value="0.03"></div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
 
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
@@ -97,7 +112,7 @@ if($useLayout)
 
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title"> GPS Offboard </h3></div>
+      <div class="panel-heading bg-primary"><h3 class="panel-title"> GPS Offboard </h3></div>
       <div class="panel-body">
         <form class="form-horizontal form-bordered">
           <div class="form-group">
@@ -120,6 +135,13 @@ if($useLayout)
 </div>
 
 <script type="text/javascript">
+
+var framenum = 100;
+
+function pad (str, max) {
+  str = str.toString();
+  return str.length < max ? pad("0" + str, max) : str;
+}
 
 function drawlidar() {
 
@@ -148,10 +170,11 @@ var svg = d3.select("#lidar").append("svg")
       .attr("r", 1);
 
 
-
+$("#camera1").attr('src', 'data/frame' + pad(framenum,4) + '.jpg');
+framenum++;
 };
 
-var updInt = setInterval(drawlidar, 500);
+var updInt = setInterval(drawlidar, 1000);
 
 $('#lidar').bind('destroyed', function() {
 	clearInterval(updInt);

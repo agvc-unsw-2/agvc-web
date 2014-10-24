@@ -8,17 +8,18 @@ if($useLayout)
 <div class="content-frame">
 <img src="<?= LOGO_URL?>" style="max-height: 10vh; max-width: 80%"></img>
 
+<button class="btn" id="startstopallproc" style="float: right" onclick="PM.Service.startstopallproc()">FULL SYSTEM</button>
 <table class="table table-condensed">
                         <thead>
                             <tr>
                                 <th>Process Name</th>
-                                <th>PID</th>
-                                <th>Memory</th>
-                                <th>CPU Time</th>
+                                <th class="hidden-xs">PID</th>
+                                <th class="hidden-xs">Memory</th>
+                                <th class="hidden-xs">CPU Time</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="processlist">
 <?php
 /*
      1) roscore                 OFF                 GPS 16        ERR
@@ -33,30 +34,17 @@ if($useLayout)
      a) safety light            OFF                 Platform      ERR
      b) kernel msgs             OFF
 */
-$processes = array(
-	array("name"=>"roscore", "id"=>0),
-	array("name"=>"buttercup", "id"=>0),
-	array("name"=>"navigation", "id"=>0),
-	array("name"=>"laser", "id"=>0),
-	array("name"=>"laser pipeline", "id"=>0),
-	array("name"=>"imu", "id"=>0),
-	array("name"=>"gps driver", "id"=>0),
-	array("name"=>"teleop", "id"=>0),
-	array("name"=>"drive pipeline", "id"=>0),
-	array("name"=>"safety light", "id"=>0),
-	array("name"=>"kernel msgs", "id"=>0),
-);
+$processes = array();
 
 foreach($processes as $proc):
 ?>
-                            <tr>
+                            <tr class="procrow">
                                 <td><h4 class="proc"><?=$proc['name']?></h4></td>
-                                <td><?=$proc['id']>0 ? $proc['id'] : ""?></td>
-                                <td></td>
-                                <td></td>
-				<td>
+                                <td class="hidden-xs"><?=$proc['id']>0 ? $proc['id'] : ""?></td>
+                                <td class="hidden-xs"></td>
+                                <td class="hidden-xs"></td>
+				<td class="text-right">
 					<button type="button" class="btn btn-icon btn-success"><i class="fa fa-check-circle"></i>Start</button>
-					<!--button type="button" class="btn btn-icon btn-default" disabled="disabled"><i class="fa fa-warning"></i>Restart</button-->
 					<button type="button" class="btn btn-icon btn-default" disabled="disabled"><i class="fa fa-exclamation"></i>Stop</button>
 				</td>
                             </tr>
@@ -66,4 +54,11 @@ endforeach;
                         </tbody>
                     </table>
 </div>
+
+<script>
+$(function() {
+	PM.send('plist');
+});
+</script>
+
 <?php if($useLayout) require_once("footer.php"); ?>

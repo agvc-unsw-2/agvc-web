@@ -1,24 +1,32 @@
 <?php 
 include_once("inc/settings.php");
+include_once("inc/helpers.php");
 
 $useLayout = !isset($_SERVER['HTTP_X_PJAX']);
 if($useLayout)
 	require_once("header.php");
+
+$systemLoadAvg = sys_getloadavg();
+$numCpus = num_cpus();
+$cpuLoadPct = $systemLoadAvg[0]/$numCpus;
+$freeDiskSpacePct = disk_free_space("./") / disk_total_space("./");
+$memInfo = getSystemMemInfo();
+$freeMemPct = 1 - ($memInfo['MemFree'] / $memInfo['MemTotal']);
 ?>
-<div class="content-frame col-md-12 col-sm-12 margin-bottom">
+<div class="content-frame margin-bottom">
 <img src="<?= LOGO_URL?>" style="max-height: 10vh; max-width: 80%"></img>
 
-           <div id="server-stats" class="">
+           <div id="server-stats">
                                 <div class="col-md-3 col-sm-6">
                                     <div id="overall-bandwidth" class="panel panel-animated panel-inverse bg-inverse animated fadeInUp" style="visibility: visible;">
                                         <div class="panel-body">
 
                                             <p class="lead">CPU Load</p><!--/lead as title-->
 
-                                            <div class="easyPieChart" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="16" data-size="120">
-                                                    <span>16%</span>
+                                            <div class="easyPieChart epcneed" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="<?= 100*$cpuLoadPct?>" data-size="120">
+                                                    <span><?= 100 *$cpuLoadPct?><small>%</small></span>
                                                 </div>
-                                                <p></p><p class="text-ellipsis text-center">Bandwidth Usage 120,4 GB / 2 TB</p>
+                                                <p></p><p class="text-ellipsis text-center"><?= join($systemLoadAvg, ", ")?></p>
                                             
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-bandwidth-->
@@ -28,12 +36,12 @@ if($useLayout)
                                     <div id="overall-bandwidth" class="panel panel-animated panel-primary bg-primary animated fadeInUp" style="visibility: visible;">
                                         <div class="panel-body">
 
-                                            <p class="lead">Battery Power</p><!--/lead as title-->
+                                            <p class="lead">Laptop Battery</p><!--/lead as title-->
 
-                                            <div class="easyPieChart" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="16" data-size="120">
-                                                    <span>16%</span>
+                                            <div class="easyPieChart epcneed" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="16" data-size="120">
+                                                    <span>16<small>%</small></span>
                                                 </div>
-                                                <p></p><p class="text-ellipsis text-center">Bandwidth Usage 120,4 GB / 2 TB</p>
+                                                <p></p><p class="text-ellipsis text-center">1 hr 32 mins</p>
                                             
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-bandwidth-->
@@ -45,10 +53,10 @@ if($useLayout)
 
                                             <p class="lead">Disk Space</p><!--/lead as title-->
 
-                                            <div class="easyPieChart" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="37" data-size="120">
-                                                    <span>37%</span>
+                                            <div class="easyPieChart epcneed" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="<?= sprintf("%.0f", 100-$freeDiskSpacePct*100)?>" data-size="120">
+                                                    <span><?= sprintf("%.0f", 100-$freeDiskSpacePct*100)?><small>%</small></span>
                                                 </div>
-                                                <p></p><p class="text-ellipsis text-center">File Usage 128,137 / 200,000</p>
+                                                <p></p><p class="text-ellipsis text-center"><?= sprintf("%.2f GB", disk_free_space("./")/(1024*1024*1024))?> free</p>
                                             
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-diskspace-->
@@ -60,41 +68,84 @@ if($useLayout)
 
                                             <p class="lead">Physical Mem.</p><!--/lead as title-->
 
-                                            <div class="easyPieChart" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="45" data-size="120">
-                                                    <span>45%</span>
+                                            <div class="easyPieChart epcneed" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="<?= $freeMemPct * 100?>" data-size="120">
+                                                    <span><?= sprintf("%.0f", $freeMemPct*100)?><small>%</small></span>
                                                 </div>
-                                                <p></p><p class="text-ellipsis text-center">Physical Memory Usage 457 MB / 1 GB</p>
+                                                <p></p><p class="text-ellipsis text-center"><?= sprintf("%.0f", $memInfo['MemFree']/1024)?> MB free</p>
                                             
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-phisicmem-->
                                 </div><!--/cols-->
-                            </div>
+			    </div>
+
+
+
+
+
+
+	   <div id="statuslist">
+           </div>
+
+
+
+
+
+
+
+
+
+
+
+                <div class="hidden-sm hidden-xs">
 
 			<div class="col-md-6 col-sm-12">
+Processes:
 <pre class="pre-scrollable small">
 <?php
-passthru('/usr/bin/top -b -n 1');
+passthru('/usr/bin/top -b -n 1 -u husky');
 ?>
 </pre>
 			</div>    
 			<div class="col-md-6 col-sm-12">
+Filesystem:
 <pre class="pre-scrollable small">
 <?php
 passthru('/bin/df -h');
 ?>
 </pre>
+			</div>    
+			<div class="col-md-6 col-sm-12">
+Power System:
 <pre class="pre-scrollable small">
 <?php
 passthru('upower -i $(upower -e | grep BAT) | grep --color=never -E "state|to\ full|to\ empty|percentage"');
 ?>
 </pre>
 			</div>    
+			<div class="col-md-6 col-sm-12">
+ROS Topic List:
+<pre class="pre-scrollable small">
+ERROR: Unable to communicate with master!
+</pre>
+			</div>    
+			<div class="col-md-6 col-sm-12">
+ROS Transform List:
+<pre class="pre-scrollable small">
+ERROR: Unable to communicate with master!
+</pre>
+			</div>    
+		</div-->
 
 <script type="text/javascript">
 $(function() {
-  $('.easyPieChart').easyPieChart({
+  $('.epcneed').removeClass('epcneed').easyPieChart({
         //your configuration goes here
     });
+});
+</script>
+<script type="text/javascript">
+$(function() {
+	PM.send('statuslist');
 });
 </script>
 

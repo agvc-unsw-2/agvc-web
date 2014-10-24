@@ -10,11 +10,20 @@ if($useLayout)
 
            <div class="col-sm-12 col-md-12">
                                 <div class="col-md-3 col-sm-6">
+                                    <div id="overall-phisicmem" class="panel panel-animated panel-cloud bg-cloud animated fadeInUp" style="visibility: visible;">
+                                        <div class="panel-body">
+
+						<i class="fa fa-ban fa-2x" style="float: right"></i>
+                                            <p class="lead">Internet</p><!--/lead as title-->
+                                        </div><!--/panel-body-->
+                                    </div><!--/panel overal-phisicmem-->
+                                </div><!--/cols-->
+                                <div class="col-md-3 col-sm-6">
                                     <div id="overall-bandwidth" class="panel panel-animated panel-inverse bg-inverse animated fadeInUp" style="visibility: visible;">
                                         <div class="panel-body">
 
 						<i class="fa fa-check fa-2x" style="float: right"></i>
-                                            <p class="lead">Router x.1</p><!--/lead as title-->
+                                            <p class="lead">Router 1</p><!--/lead as title-->
                                             
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-bandwidth-->
@@ -25,7 +34,7 @@ if($useLayout)
                                         <div class="panel-body">
 
 						<i class="fa fa-check fa-2x" style="float: right"></i>
-                                            <p class="lead">Router x.3</p><!--/lead as title-->
+                                            <p class="lead">Router 3</p><!--/lead as title-->
 
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-bandwidth-->
@@ -36,7 +45,7 @@ if($useLayout)
                                         <div class="panel-body">
 
 						<i class="fa fa-check fa-2x" style="float: right"></i>
-                                            <p class="lead">SICK LMS151 x.7</p><!--/lead as title-->
+                                            <p class="lead">Lidar 7</p><!--/lead as title-->
 
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-diskspace-->
@@ -47,7 +56,7 @@ if($useLayout)
                                         <div class="panel-body">
 
 						<i class="fa fa-check fa-2x" style="float: right"></i>
-                                            <p class="lead">GPS Receiver x.16</p><!--/lead as title-->
+                                            <p class="lead">GPS 16</p><!--/lead as title-->
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-phisicmem-->
                                 </div><!--/cols-->
@@ -57,7 +66,7 @@ if($useLayout)
                                         <div class="panel-body">
 
 						<i class="fa fa-check fa-2x" style="float: right"></i>
-                                            <p class="lead">GPS Receiver x.18</p><!--/lead as title-->
+                                            <p class="lead">GPS 18</p><!--/lead as title-->
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-phisicmem-->
                                 </div><!--/cols-->
@@ -67,20 +76,11 @@ if($useLayout)
                                         <div class="panel-body">
 
 						<i class="fa fa-check fa-2x" style="float: right"></i>
-                                            <p class="lead">GPS Receiver x.17</p><!--/lead as title-->
+                                            <p class="lead">GPS 17</p><!--/lead as title-->
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-phisicmem-->
                                 </div><!--/cols-->
 
-                                <div class="col-md-3 col-sm-6">
-                                    <div id="overall-phisicmem" class="panel panel-animated panel-cloud bg-cloud animated fadeInUp" style="visibility: visible;">
-                                        <div class="panel-body">
-
-						<i class="fa fa-check fa-2x" style="float: right"></i>
-                                            <p class="lead">Internet</p><!--/lead as title-->
-                                        </div><!--/panel-body-->
-                                    </div><!--/panel overal-phisicmem-->
-                                </div><!--/cols-->
                             </div>
 		</div>
 		<div class="col-md-12 col-sm-12">
@@ -105,11 +105,9 @@ passthru('upower -i $(upower -e | grep BAT) | grep --color=never -E "state|to\ f
 </pre>
 			</div>    
 
-<script type="text/javascript">
+<script>
 $(function() {
-  $('.easyPieChart').easyPieChart({
-        //your configuration goes here
-    });
+	PM.send('statuslist');
 });
 </script>
 

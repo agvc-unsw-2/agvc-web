@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="wsserver" content="<?= WS_SERVER ?>">
     <title><?= WEBSITE_TITLE ?></title>
 
     <script src="js/jquery-2.1.1.min.js"></script>
@@ -23,7 +24,7 @@
   </head>
   <body>
     <section class="section">
-      <aside class="side-left">
+      <aside class="side-left" id="aside">
                 <ul class="sidebar">
                     <li class="">
                         <a href="dashboard.php" data-pjax=".content-body">
@@ -54,12 +55,6 @@
                         <a href="system.php" data-pjax=".content-body">
                             <i class="sidebar-icon fa fa-laptop"></i>
                             <span class="sidebar-text">System</span>
-                        </a>
-                    </li><!--/sidebar-item-->
-                    <li>
-                        <a href="network.php" data-pjax=".content-body">
-                            <i class="sidebar-icon fa fa-link"></i>
-                            <span class="sidebar-text">Network</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li>

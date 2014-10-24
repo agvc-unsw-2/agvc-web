@@ -11,9 +11,9 @@ if($useLayout)
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>Date</th>
+                                <th>Size</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
