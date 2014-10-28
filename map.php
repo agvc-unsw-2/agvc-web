@@ -54,7 +54,7 @@ function initialize() {
 
 		var mapOptions = {
 			center: new google.maps.LatLng(data.robot_lat, data.robot_lon),
-			zoom: 20,
+			zoom: 19,
 			mapTypeId: google.maps.MapTypeId.SATELLITE
 		};
 

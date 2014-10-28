@@ -33,7 +33,7 @@ window.requestAnimFrame = (function () {
     window.oRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
     function (callback) {
-        window.setTimeout(callback, 1000 / 60);
+        window.setTimeout(callback, 1000 / 30);
     };
 })();
 
@@ -46,6 +46,7 @@ var canvas, c, crect; // c is the canvas' context 2D
 
 $(window).on("orientationchange", resetCanvas);
 $(canvas).on("resize", resetCanvas);
+$(window).on("resize", resetCanvas);
 //window.onorientationchange = resetCanvas;
 //window.onresize = resetCanvas;
 
@@ -54,14 +55,21 @@ function resetCanvas(e) {
     // resize the canvas - but remember - this clears the canvas too.
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    resetTouches();
     //make sure we scroll to the top left.
     window.scrollTo(0, 0);
 }
 
 function draw() {
+
     c.clearRect(0, 0, canvas.width, canvas.height);
 
-    touches.forEach(function (touch) {
+    if(touches.count > 1)
+	    resetTouches();
+
+
+    if(touches.count > 0) {
+      touches.forEach(function (touch) {
 //        c.beginPath();
 //        c.fillStyle = "white";
 //        c.fillText(touch.type + " id : " + touch.identifier + " x:" + touch.x + " y:" + touch.y, touch.x + 30 - crect.left, touch.y - 30 - crect.top);
@@ -79,10 +87,10 @@ function draw() {
 	c.lineTo(touch.x, touch.y);
 	c.stroke();
 
-    });
+      });
 
-    if(touchFirst.count == 1) {
-	touches.forEach(function(touch) {
+      if(touchFirst.count == 1) {
+        touches.forEach(function(touch) {
 		var tFirst = touchFirst.item(touch.identifier);
 
 		var line = [touch.x - tFirst.x, touch.y - tFirst.y];
@@ -91,23 +99,25 @@ function draw() {
 
 		if(Math.abs(cmd['lin']) < .05)
 			cmd['lin'] = 0;
-		if(Math.abs(cmd['ang']) < .05)
+		if(Math.abs(cmd['ang']) < .1)
 			cmd['ang'] = 0;
 
 		if(Math.abs(cmd['ang']) > 2)
-			cmd['ang'] = 2 * Math.sign(cmd['ang']);
+			cmd['ang'] = 2.0 * (cmd['ang'] > 0 ? 1 : -1);
+
 		if(Math.abs(cmd['lin']) > 2)
-			cmd['lin'] = 2 * Math.sign(cmd['lin']);
+			cmd['lin'] = 2.0 * (cmd['lin'] > 0 ? 1 : -1);
 		   
 		
 		c.beginPath();
 		c.fillStyle = "white";
 		c.fillText("lin " + cmd['lin'] + " ang " + cmd['ang'] , touch.x + 50 - crect.left, touch.y - 50 - crect.top);
 
+                window.top.postMessage({r: 'drive', cmd: {'lin':cmd['lin'], 'ang':cmd['ang']}}, '*');
 	});
+      }
     }
-
-    setTimeout(function() {requestAnimFrame(draw);}, 25);
+    setTimeout(function() {requestAnimFrame(draw);}, 50);
 }
 
 function createPointerObject(event) {
@@ -165,4 +175,9 @@ $(function() {
     canvas.addEventListener('pointerout', onPointerUp, false);
     requestAnimFrame(draw);
 });
+
+function resetTouches() {
+    touches = new Collection();
+    touchFirst = new Collection();
+}
 

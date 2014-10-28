@@ -1,3 +1,4 @@
+
 var PI = {
 	onReady: function() {
 		//$(document).pjax('a', '#pjax-container')	
@@ -41,6 +42,14 @@ $(document).ready( PI.onReady );
 
 var PM = {
 	onReady: function() {
+
+		window.onmessage = function(m) {
+			if(m.data['r'] == 'drive')
+				PM.send(m.data);
+			//console.log(m.data); 
+		};
+
+
 		connect();
 
 		function connect(){

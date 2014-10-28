@@ -7,9 +7,9 @@ if($useLayout)
 ?>
 <div style="background-color: #fff; min-height: 100vh; min-width: 100%; display: table">
   <div style="text-align: center; vertical-align: middle; display:table-cell; ">
-    <img src="<?= LOGO_URL?>" style="max-height: 50vh; max-width: 70%; display: inline-block"></img>
+    <img src="<?= LOGO_URL?>" style="max-height: 50vh; max-width: 70%; display: inline-block" />
     <br/>
-    <img src="imgs/logounsw.png" style="max-height: 20vh; max-width: 30%; display: inline-block"></img>
+    <img src="imgs/logounsw.png" style="max-height: 20vh; max-width: 30%; display: inline-block" />
   </div>
 </div>
 
