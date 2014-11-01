@@ -7,7 +7,10 @@ if($useLayout)
 ?>
 <div class="content-frame">
 <img src="<?= LOGO_URL?>" style="max-height: 10vh; max-width: 80%"></img>
- <table class="table table-striped">
+<pre id="logpanel" style="min-height: 375px">
+
+</pre>
+ <!--table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -39,7 +42,7 @@ if($useLayout)
                     </table>
   <div style="text-align: right">
     <button type="button" class="btn btn-rounded btn-danger">Record</button> 
-  </div>
+  </div-->
 </div>
 
 
@@ -48,6 +51,7 @@ $(function()
 {
 	$("aside li").removeClass("active");
 	$("#logtab").addClass("active");
+	PM.Service.log();
 });
 </script>
 

@@ -46,6 +46,8 @@ var PM = {
 		window.onmessage = function(m) {
 			if(m.data['r'] == 'drive')
 				PM.send(m.data);
+			else if(m.data['r'] == 'waypoint')
+				PM.send(m.data);
 			//console.log(m.data); 
 		};
 
@@ -90,6 +92,8 @@ var PM = {
 				PM.send('ping');
 				if($("#processlist").exists()) PM.send('plist');
 				if($("#statuslist").exists()) PM.send('statuslist');
+				if($("#mapframe").exists()) PM.Service.map();
+				if($("#logpanel").exists()) PM.Service.log();
 			}
 
 			function handle(obj) {
@@ -137,6 +141,16 @@ var PM = {
 						}
 					});
 				}
+				else if(obj['r'] == 'map') {
+					$("#mapframe")[0].contentWindow.postMessage(obj, "*"); 
+				}
+				else if(obj['r'] == 'log') {
+					var output = '';
+					obj['loginfo'].forEach(function(entry) {
+						output += '[' + entry['name'] + ']: ' + entry['msg'] + '\n';
+					});
+					$("#logpanel").html(output);
+				}
 			}
 
 		}//End connect
@@ -171,6 +185,12 @@ var PM = {
 		},
 		startstopallproc: function() {
 			PM.send({r: 'startstopallproc'});
+		},
+		map: function() {
+			PM.send({r: 'map'});
+		},
+		log: function() {
+			PM.send({r: 'log'});
 		},
 	}
 
