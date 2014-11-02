@@ -59,8 +59,8 @@ function googleupdate(obj)
             if(obj['path']) {
 	        for(i = 0; i < obj['path']['x'].length; i+=1) {
 	           pathlatlns.push({
-		     'lat': obj['gps']['lat'] + ((obj['path']['x'][i] - obj['mappos']['pos'][0]) / meterpermillilat)/1000,
-		     'lng': obj['gps']['lng'] + ((obj['path']['y'][i] - obj['mappos']['pos'][1]) / meterpermillilng)/1000
+		     'lat': obj['gps']['lat'] + ((obj['path']['y'][i] - obj['mappos']['pos'][1]) / meterpermillilat)/1000,
+		     'lng': obj['gps']['lng'] + ((obj['path']['x'][i] - obj['mappos']['pos'][0]) / meterpermillilng)/1000
 	           });
                 }
                 if(!draggingDestination && pathlatlns.length > 0)
@@ -104,7 +104,7 @@ function googleinitialize(myLatlng) {
 
 		var mapOptions = {
 			center:  myLatlng,
-			zoom: 20,
+			zoom: 21,
 			mapTypeId: google.maps.MapTypeId.SATELLITE
 		};
 
@@ -135,8 +135,8 @@ google.maps.event.addListener(destmarker,'dragend', function(event) {
     draggingDestination = false;
     var latlon = destmarker.getPosition();
     var xy = {
-              'x': ((latlon.lat() - lastobj['gps']['lat']) * meterpermillilat * 1000) + lastobj['mappos']['pos'][0],
-	      'y': ((latlon.lng() - lastobj['gps']['lng']) * meterpermillilng * 1000) + lastobj['mappos']['pos'][1],
+              'y': ((latlon.lat() - lastobj['gps']['lat']) * meterpermillilat * 1000) + lastobj['mappos']['pos'][1],
+	      'x': ((latlon.lng() - lastobj['gps']['lng']) * meterpermillilng * 1000) + lastobj['mappos']['pos'][0],
     };
                 window.top.postMessage({r: 'waypoint', dest: xy}, '*');
   });
