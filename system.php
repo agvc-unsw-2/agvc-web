@@ -12,6 +12,23 @@ $cpuLoadPct = $systemLoadAvg[0]/$numCpus;
 $freeDiskSpacePct = disk_free_space("./") / disk_total_space("./");
 $memInfo = getSystemMemInfo();
 $freeMemPct = 1 - ($memInfo['MemFree'] / $memInfo['MemTotal']);
+
+$power = `upower -i $(upower -e | grep BAT) | grep --color=never -E "state|to\ full|to\ empty|percentage"`;
+$powerPct = 1;
+$powerText = "no battery";
+if($power) {
+  $powerlines = split("\n", $power);
+  $powerText = split(":", $powerlines[0]);
+  $powerText = trim($powerText[1]);
+  
+  $powerRemaining = split(":", $powerlines[1]);
+  $powerRemaining = trim($powerRemaining[1]);
+
+  $powerText .= ": " . $powerRemaining;
+
+  $powerPct = split(":", $powerlines[2]);
+  $powerPct = trim(str_replace("%","", $powerPct[1])) / 100.0;
+}
 ?>
 <div class="content-frame margin-bottom">
 <img src="<?= LOGO_URL?>" style="max-height: 10vh; max-width: 80%"></img>
@@ -24,7 +41,7 @@ $freeMemPct = 1 - ($memInfo['MemFree'] / $memInfo['MemTotal']);
                                             <p class="lead">CPU Load</p><!--/lead as title-->
 
                                             <div class="easyPieChart epcneed" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="<?= 100*$cpuLoadPct?>" data-size="120">
-                                                    <span><?= 100 *$cpuLoadPct?><small>%</small></span>
+                                                    <span><?= sprintf("%.0f", 100 *$cpuLoadPct)?><small>%</small></span>
                                                 </div>
                                                 <p></p><p class="text-ellipsis text-center"><?= join($systemLoadAvg, ", ")?></p>
                                             
@@ -38,10 +55,10 @@ $freeMemPct = 1 - ($memInfo['MemFree'] / $memInfo['MemTotal']);
 
                                             <p class="lead">Laptop Battery</p><!--/lead as title-->
 
-                                            <div class="easyPieChart epcneed" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="16" data-size="120">
-                                                    <span>16<small>%</small></span>
+                                            <div class="easyPieChart epcneed" data-barcolor="#232332" data-trackcolor="#ecf0f1" data-scalecolor="#ecf0f1" data-percent="<?= 100 * $powerPct?>" data-size="120">
+                                                    <span><?= sprintf("%.0f", $powerPct * 100) ?><small>%</small></span>
                                                 </div>
-                                                <p></p><p class="text-ellipsis text-center">1 hr 32 mins</p>
+                                                <p></p><p class="text-ellipsis text-center"><?= $powerText?></p>
                                             
                                         </div><!--/panel-body-->
                                     </div><!--/panel overal-bandwidth-->
@@ -111,14 +128,6 @@ Filesystem:
 <pre class="pre-scrollable small">
 <?php
 passthru('/bin/df -h');
-?>
-</pre>
-			</div>    
-			<div class="col-md-6 col-sm-12">
-Power System:
-<pre class="pre-scrollable small">
-<?php
-passthru('upower -i $(upower -e | grep BAT) | grep --color=never -E "state|to\ full|to\ empty|percentage"');
 ?>
 </pre>
 			</div>    
