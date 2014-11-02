@@ -29,6 +29,7 @@
 
   </head>
   <body>
+    <header class="header"></header>
     <section class="section" id="section">
       <aside class="side-left" id="aside">
                 <ul class="sidebar">

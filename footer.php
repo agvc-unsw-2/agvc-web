@@ -1,6 +1,7 @@
         </div>
       </div>
     </section>
+    <footer class="footer"></footer>
     <script src="js/jquery.pjax.min.js"></script>
     <script src="js/jquery.easypiechart.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

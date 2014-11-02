@@ -1,18 +1,17 @@
+html {
+	min-height: 100%;
+}
 body {
 background: #ecf0f1;
 font-family: 'Open Sans',Verdana,Arial,Helvetica,sans-serif;
 overflow-x: hidden;
 }
 
-.header {
-position: relative;
-padding: 0 20px;
-display: block;
-height: 60px;
-z-index: 99;
-background: #232332;
-color: #bdc3c7;
-border-bottom: 1px solid rgba(0,0,0,.1);
+footer {
+}
+
+#logo img {
+display: block; 
 }
 
 .section {
@@ -29,7 +28,7 @@ display: block;
 margin-left: 85px;
 background-color: #FFF;
 padding-bottom: 0;
-min-height: 100vh;
+min-height: 100%;
 }
 
 article, aside, footer, header, hgroup, main, nav, section, iframe {
@@ -169,9 +168,6 @@ font-size: 13px;
 background-color: #fff;
 color: #394264;
 min-height: 100%;
-
-top: 0px;
-bottom: 0px;
 }
 
 .content>.content-body>.content-frame {

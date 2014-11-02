@@ -3,7 +3,7 @@ $useLayout = !isset($_SERVER['HTTP_X_PJAX']);
 if($useLayout)
 	require_once("header.php");
 ?>
-<iframe frameborder=0 src="drive.php" style="height: 100%; width:100%;min-height: 425px" scrolling="false"></iframe>
+<iframe frameborder=0 src="drive.php" style="height: 100%; width:100%" class="content-body" scrolling="false"></iframe>
 <script>
 $(function()
 {

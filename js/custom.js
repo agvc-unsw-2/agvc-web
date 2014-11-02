@@ -8,7 +8,7 @@ var PI = {
 			$(document).one('pjax:end', function(event) {
 				$(event.target).find('script').each(function() {
 					$.globalEval(this.text || this.textContent || this.innerHTML || '');
-				})
+				});
 			});
 		});
 		$('body').bind('pjax:start', function(xhr, options) {
@@ -17,6 +17,7 @@ var PI = {
 			});
 		}).bind('pjax:end', function(xhr, options) {
 			$(options.container).fadeIn("fast");
+			sizeContent();
 		});
 	}
 
@@ -198,4 +199,18 @@ var PM = {
 };
 
 $(document).ready( PM.onReady );
+
+
+//Initial load of page
+$(document).ready(sizeContent);
+
+//Every resize of window
+$(window).resize(sizeContent);
+
+//Dynamically assign height
+function sizeContent() {
+    var winHeight = $(window).height();
+    $(".content-body").css("min-height", winHeight + "px");
+}
+
 
