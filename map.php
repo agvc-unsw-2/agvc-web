@@ -52,7 +52,7 @@ function googleupdate(obj)
 	localmarker.setPosition(obj['gps']);
         if(obj['mappos']) {
             var icon = localmarker.getIcon();
-            icon.rotation = obj['mappos']['rpy'][2] * 180.0 / 3.141592653 + 90;
+            icon.rotation = -90 - obj['mappos']['rpy'][2] * 180.0 / 3.141592653 ;
             localmarker.setIcon(icon);
 
             var pathlatlns = [];
