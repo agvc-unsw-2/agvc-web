@@ -68,7 +68,7 @@ var PM = {
 				PM.socket.onopen = function(){
 					$("#aside").removeClass("bg-danger");
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (open)');
-					cbh = setInterval(tick, 5000);
+					cbh = setInterval(tick, 3000);
 					tick();
 				}
 

@@ -54,21 +54,28 @@ function googleupdate(obj)
             var icon = localmarker.getIcon();
             icon.rotation = -90 - obj['mappos']['rpy'][2] * 180.0 / 3.141592653 ;
             localmarker.setIcon(icon);
-
+	}
+	if(obj['origin_fix'] && obj['path']) {
             var pathlatlns = [];
             if(obj['path']) {
 	        for(i = 0; i < obj['path']['x'].length; i+=1) {
 	           pathlatlns.push({
-		     'lat': obj['gps']['lat'] + ((obj['path']['y'][i] - obj['mappos']['pos'][1]) / meterpermillilat)/1000,
-		     'lng': obj['gps']['lng'] + ((obj['path']['x'][i] - obj['mappos']['pos'][0]) / meterpermillilng)/1000
+		     'lat': obj['origin_fix']['lat'] + (obj['path']['y'][i] / meterpermillilat)/1000,
+		     'lng': obj['origin_fix']['lng'] + (obj['path']['x'][i]  / meterpermillilng)/1000
 	           });
                 }
-                if(!draggingDestination && pathlatlns.length > 0)
-                    destmarker.setPosition(pathlatlns[pathlatlns.length-1]);
             }
 	    path.setPath(pathlatlns);
+	}
+	if(obj['origin_fix'] && obj['waypoint']) {
+		var waypoint = {
+		     'lat': obj['origin_fix']['lat'] + (obj['waypoint']['y'] / meterpermillilat)/1000,
+		     'lng': obj['origin_fix']['lng'] + (obj['waypoint']['x']  / meterpermillilng)/1000
+		};
+                if(!draggingDestination)
+                    destmarker.setPosition(waypoint);
 
-        }
+	}
 /*	$.getJSON( "test.php", function( data ) {
 		if(barrels.length < 100)
 			setTimeout(update, 1000);
