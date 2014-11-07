@@ -155,6 +155,7 @@ function onPointerMove(e) {
 function onPointerUp(e) {
     touches.remove(e.pointerId);
     touchFirst.remove(e.pointerId);
+    window.top.postMessage({r: 'drive', cmd: {'lin':0, 'ang':0}}, '*');
 }
 
 $(function() { 
@@ -179,5 +180,6 @@ $(function() {
 function resetTouches() {
     touches = new Collection();
     touchFirst = new Collection();
+    window.top.postMessage({r: 'drive', cmd: {'lin':0, 'ang':0}}, '*');
 }
 
