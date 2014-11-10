@@ -102,8 +102,8 @@ function draw() {
 		if(Math.abs(cmd['ang']) < .1)
 			cmd['ang'] = 0;
 
-		if(Math.abs(cmd['ang']) > 2)
-			cmd['ang'] = 2.0 * (cmd['ang'] > 0 ? 1 : -1);
+		if(Math.abs(cmd['ang']) > 1.5)
+			cmd['ang'] = 1.5 * (cmd['ang'] > 0 ? 1 : -1);
 
 		if(Math.abs(cmd['lin']) > 2)
 			cmd['lin'] = 2.0 * (cmd['lin'] > 0 ? 1 : -1);
