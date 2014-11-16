@@ -94,7 +94,7 @@ function draw() {
 		var tFirst = touchFirst.item(touch.identifier);
 
 		var line = [touch.x - tFirst.x, touch.y - tFirst.y];
-		var cmd = {lin: -line[1] / 100, ang: -line[0] / 100};
+		var cmd = {lin: -line[1] / 100, ang: -line[0] / 50};
 
 
 		if(Math.abs(cmd['lin']) < .05)
