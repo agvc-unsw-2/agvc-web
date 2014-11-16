@@ -68,7 +68,7 @@ var PM = {
 				PM.socket.onopen = function(){
 					$("#aside").removeClass("bg-danger");
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (open)');
-					cbh = setInterval(tick, 3000);
+					cbh = setInterval(tick, 2000);
 					tick();
 				}
 
@@ -82,7 +82,7 @@ var PM = {
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (Closed)');
 					clearInterval(cbh);
 					$("#aside").addClass("bg-danger");
-					setTimeout(connect, 10000);
+					setTimeout(connect, 5000);
 				}			
 
 			} catch(exception){
@@ -148,7 +148,7 @@ var PM = {
 				else if(obj['r'] == 'log') {
 					var output = '';
 					obj['loginfo'].forEach(function(entry) {
-						output += '[' + entry['name'] + ']: ' + entry['msg'] + '\n';
+						output += '[' + entry['name'] + ' ' + entry['time'].toFixed(2) + ']: ' + entry['msg'] + '\n';
 					});
 					$("#logpanel").html(output);
 				}
@@ -213,4 +213,9 @@ function sizeContent() {
     $(".content-body").css("min-height", winHeight + "px");
 }
 
+function activateTab(id) {
+	$("aside li").removeClass("active");
+	$("#" + id).addClass("active");
+  
+}
 

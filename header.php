@@ -34,44 +34,44 @@
       <aside class="side-left" id="aside">
                 <ul class="sidebar">
                     <li class="" id="dashboardtab">
-                        <a href="dashboard.php" data-pjax=".content-body">
+                        <a href="dashboard.php" data-pjax=".content-body" onclick="activateTab('dashboardtab')">
                             <i class="sidebar-icon fa fa-home"></i>
                             <span class="sidebar-text">Dashboard</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li id="processtab">
-                        <a href="process.php" data-pjax=".content-body">
+                        <a href="process.php" data-pjax=".content-body" onclick="activateTab('processtab')">
                             <i class="sidebar-icon fa fa-tasks"></i>
                             <span class="sidebar-text">Processes</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li id="maptab">
-                        <a href="mapframe.php" data-pjax=".content-body">
+                        <a href="mapframe.php" data-pjax=".content-body" onclick="activateTab('maptab')">
                             <div class="badge badge-primary animated animated-repeat wobble">3</div>
                             <i class="sidebar-icon fa fa-map-marker"></i>
                             <span class="sidebar-text">Map</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li id="sensorstab">
-                        <a href="sensors.php" data-pjax=".content-body">
+                        <a href="sensors.php" data-pjax=".content-body" onclick="activateTab('sensorstab')">
                             <i class="sidebar-icon fa fa-wifi"></i>
                             <span class="sidebar-text">Sensors</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li id="systemtab">
-                        <a href="system.php" data-pjax=".content-body">
+                        <a href="system.php" data-pjax=".content-body" onclick="activateTab('systemtab')">
                             <i class="sidebar-icon fa fa-laptop"></i>
                             <span class="sidebar-text">System</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li id="logtab">
-                        <a href="logs.php" data-pjax=".content-body">
+                        <a href="logs.php" data-pjax=".content-body" onclick="activateTab('logtab')">
                             <i class="sidebar-icon fa fa-table"></i>
                             <span class="sidebar-text">Logs</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li id="drivetab">
-                        <a href="driveframe.php" data-pjax=".content-body">
+                        <a href="driveframe.php" data-pjax=".content-body" onclick="activateTab('drivetab')">
                             <i class="sidebar-icon fa fa-car"></i>
                             <span class="sidebar-text">Drive</span>
                         </a>
