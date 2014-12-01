@@ -27,7 +27,7 @@ if($useLayout)
 
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title"> Platform </h3></div>
+      <div class="panel-heading bg-primary"><h3 class="panel-title"> Platform </h3></div>
       <div class="panel-body">
         <form class="form-horizontal form-bordered">
           <div class="form-group">
@@ -110,7 +110,7 @@ if($useLayout)
     </div>
   </div>
 
-  <div class="col-md-6">
+  <!--div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading bg-primary"><h3 class="panel-title"> GPS Offboard </h3></div>
       <div class="panel-body">
@@ -130,7 +130,7 @@ if($useLayout)
         </form>
       </div>
     </div>
-  </div>
+  </div-->
 
 </div>
 

@@ -82,7 +82,7 @@ var PM = {
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (Closed)');
 					clearInterval(cbh);
 					$("#aside").addClass("bg-danger");
-					setTimeout(connect, 5000);
+					setTimeout(connect, 3000);
 				}			
 
 			} catch(exception){
