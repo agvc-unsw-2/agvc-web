@@ -9,9 +9,17 @@ if($useLayout)
   <img src="<?= LOGO_URL?>" style="max-height: 10vh; max-width: 80%; display: block"></img>
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title"> Camera </h3></div>
+      <div class="panel-heading"><h3 class="panel-title"> Camera Left </h3></div>
       <div class="panel-body">
-        <img id="camera1" src="data/frame0001.jpg" style="max-width: 100%">
+        <img id="camera1" src="data/left.jpg" style="max-width: 100%">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div id="panel-lidar" class="panel panel-default">
+      <div class="panel-heading"><h3 class="panel-title"> Camera Right </h3></div>
+      <div class="panel-body">
+        <img id="camera2" src="data/right.jpg" style="max-width: 100%">
       </div>
     </div>
   </div>
@@ -170,11 +178,12 @@ var svg = d3.select("#lidar").append("svg")
       .attr("r", 1);
 
 
-$("#camera1").attr('src', 'data/frame' + pad(framenum,4) + '.jpg');
+$("#camera1").attr('src', 'data/left.jpg?' + pad(framenum,4) + Math.random());
+$("#camera2").attr('src', 'data/right.jpg?' + pad(framenum,4) + Math.random());
 framenum++;
 };
 
-var updInt = setInterval(drawlidar, 1000);
+var updInt = setInterval(drawlidar, 500);
 
 $('#lidar').bind('destroyed', function() {
 	clearInterval(updInt);
