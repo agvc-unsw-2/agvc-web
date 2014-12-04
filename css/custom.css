@@ -252,7 +252,7 @@ border-color: rgba(19,168,158,.8);
 }
 
 .panel-body {
-padding: 6px 12px;
+padding: 0px; 
 }
 
 .panel .panel-actions-fly {

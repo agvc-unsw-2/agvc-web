@@ -6,12 +6,14 @@ if($useLayout)
 	require_once("header.php");
 ?>
 <div class="content-frame col-md-12">
-  <img src="<?= LOGO_URL?>" style="max-height: 10vh; max-width: 80%; display: block"></img>
+  <img src="<?= LOGO_URL?>" style="max-height: 80px; max-width: 80%; display: block"></img>
+  <div class="row">
+
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Left </h3></div>
       <div class="panel-body">
-        <img id="camera1" src="data/left.jpg" style="max-width: 100%">
+        <img id="camera1" src="data/left.jpg" style="width: 100%">
       </div>
     </div>
   </div>
@@ -19,7 +21,7 @@ if($useLayout)
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Right </h3></div>
       <div class="panel-body">
-        <img id="camera2" src="data/right.jpg" style="max-width: 100%">
+        <img id="camera2" src="data/right.jpg" style="width: 100%">
       </div>
     </div>
   </div>
@@ -29,6 +31,16 @@ if($useLayout)
       <div class="panel-heading"><h3 class="panel-title"> Lidar </h3></div>
       <div class="panel-body">
         <div id="lidar"></div>              
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 hidden-xs">
+    <div id="panel-lidar" class="panel panel-default">
+      <div class="panel-heading"><h3 class="panel-title"> Drive </h3></div>
+      <div class="panel-body">
+        <iframe frameborder=0 src="drive.php" style="height: 280px; min-height: 280px; width:100%" scrolling="false"></iframe>
+        <!--div id="lidar"></div-->              
       </div>
     </div>
   </div>
@@ -140,6 +152,7 @@ if($useLayout)
     </div>
   </div-->
 
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -155,7 +168,7 @@ function drawlidar() {
 
 var margin = {top: 0, right: 0, bottom: 0, left: 0},
     width = $("#lidar").width() - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    height = 275 - margin.top - margin.bottom;
 
 var points = d3.range(1, 110).map(function(i) {
   return [i * 110 / 2500 + (3*3.141592653/4), 75 + .15* Math.random() * (height - 100)];
@@ -178,12 +191,12 @@ var svg = d3.select("#lidar").append("svg")
       .attr("r", 1);
 
 
-$("#camera1").attr('src', 'data/left.jpg?' + pad(framenum,4) + Math.random());
-$("#camera2").attr('src', 'data/right.jpg?' + pad(framenum,4) + Math.random());
+$("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
+$("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
 framenum++;
 };
 
-var updInt = setInterval(drawlidar, 500);
+var updInt = setInterval(drawlidar, 400);
 
 $('#lidar').bind('destroyed', function() {
 	clearInterval(updInt);

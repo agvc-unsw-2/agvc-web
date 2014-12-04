@@ -31,8 +31,8 @@ if($power) {
 }
 ?>
 <div class="content-frame margin-bottom">
-<img src="<?= LOGO_URL?>" style="max-height: 10vh; max-width: 80%"></img>
-
+<img src="<?= LOGO_URL?>" style="max-height: 80px; max-width: 80%"></img>
+  <div class="row">
            <div id="server-stats">
                                 <div class="col-md-3 col-sm-6">
                                     <div id="overall-bandwidth" class="panel panel-animated panel-inverse bg-inverse animated fadeInUp" style="visibility: visible;">
@@ -131,7 +131,7 @@ passthru('/bin/df -h');
 ?>
 </pre>
 			</div>    
-			<div class="col-md-6 col-sm-12">
+			<!--div class="col-md-6 col-sm-12">
 ROS Topic List:
 <pre class="pre-scrollable small">
 ERROR: Unable to communicate with master!
@@ -142,8 +142,8 @@ ROS Transform List:
 <pre class="pre-scrollable small">
 ERROR: Unable to communicate with master!
 </pre>
-			</div>    
-		</div-->
+			</div-->    
+		</div>
 
 <script type="text/javascript">
 $(function() {
@@ -158,6 +158,7 @@ $(function() {
 });
 </script>
 
+  </div>
 </div>
 
 
