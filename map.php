@@ -111,7 +111,7 @@ function googleinitialize(myLatlng) {
 
 		var mapOptions = {
 			center:  myLatlng,
-			zoom: 21,
+			zoom: 20,
 			mapTypeId: google.maps.MapTypeId.SATELLITE
 		};
 

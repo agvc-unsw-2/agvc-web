@@ -5,7 +5,7 @@ $useLayout = !isset($_SERVER['HTTP_X_PJAX']);
 if($useLayout)
 	require_once("header.php");
 ?>
-<div class="content-frame col-md-12">
+<div class="content-frame col-md-12" id="sensorframe">
   <img src="<?= LOGO_URL?>" style="max-height: 80px; max-width: 80%; display: block"></img>
   <div class="row">
 
@@ -13,7 +13,7 @@ if($useLayout)
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Left </h3></div>
       <div class="panel-body">
-        <img id="camera1" src="data/left.jpg" style="width: 100%">
+        <img id="camera1" src="data/left.jpg" style="width: 100%; max-height: 240px">
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@ if($useLayout)
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Right </h3></div>
       <div class="panel-body">
-        <img id="camera2" src="data/right.jpg" style="width: 100%">
+        <img id="camera2" src="data/right.jpg" style="width: 100%; max-height: 240px">
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@ if($useLayout)
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Drive </h3></div>
       <div class="panel-body">
-        <iframe frameborder=0 src="drive.php" style="height: 280px; min-height: 280px; width:100%" scrolling="false"></iframe>
+        <iframe frameborder=0 src="drive.php" style="height: 255px; min-height: 255px; width:100%" scrolling="false"></iframe>
         <!--div id="lidar"></div-->              
       </div>
     </div>
@@ -158,6 +158,7 @@ if($useLayout)
 <script type="text/javascript">
 
 var framenum = 100;
+var laserdata = {};
 
 function pad (str, max) {
   str = str.toString();
@@ -168,11 +169,24 @@ function drawlidar() {
 
 var margin = {top: 0, right: 0, bottom: 0, left: 0},
     width = $("#lidar").width() - margin.left - margin.right,
-    height = 275 - margin.top - margin.bottom;
+    height = 250 - margin.top - margin.bottom;
 
 var points = d3.range(1, 110).map(function(i) {
   return [i * 110 / 2500 + (3*3.141592653/4), 75 + .15* Math.random() * (height - 100)];
 });
+
+if(laserdata) {
+  points = [];
+  angle = laserdata['min'];
+  for(i = 0; i < laserdata['ranges'].length; i++) {
+    range = laserdata['ranges'][i] * 20;
+
+    if(range > 0)
+      points.push([angle - (3.14159653/2), range]);
+
+    angle += laserdata['inc'];
+  }
+}
 
 d3.select("#lidar svg").remove();
 
@@ -187,20 +201,61 @@ var svg = d3.select("#lidar").append("svg")
       .enter()
       .append("circle")
       .attr("cx", function(d) { return Math.cos(d[0])*d[1] + width/2; })
-      .attr("cy", function(d) { return Math.sin(d[0])*d[1] + height/2; })
+      .attr("cy", function(d) { return Math.sin(d[0])*d[1] + height - 15; })
       .attr("r", 1);
 
+  svg.append("line")
+      .attr("x1", width/2)
+      .attr("y1", 0)
+      .attr("x2", width/2)
+      .attr("y2", height)
+      .attr("stroke-width", 1)
+      .attr("stroke", "black");
+
+  svg.append("line")
+      .attr("x1", 0)
+      .attr("y1", height-15)
+      .attr("x2", width)
+      .attr("y2", height-15)
+      .attr("stroke-width", 1)
+      .attr("stroke", "black");
+
+  // vehicle line
+  svg.append("line")
+      .attr("x1", width/2)
+      .attr("y1", height-15  - (-0.04 * 20))
+      .attr("x2", width/2)
+      .attr("y2", height-15  + (1.0 * 20))
+      .attr("stroke-width", .8 * 20)
+      .attr("stroke", "red");
+
+  svg.append("circle")
+      .attr("cx", width/2)
+      .attr("cy", height-15)
+      .attr("r", 5 * 20)
+      .style("stroke", "gray");
+
+  svg.append("circle")
+      .attr("cx", width/2)
+      .attr("cy", height-15)
+      .attr("r", 10 * 20)
+      .style("stroke", "gray");
+
+  svg.append("text")
+      .attr("x", width/2 + (5*20) + 3)
+      .attr("y", height-3)
+      .text("5");
+
+  svg.append("text")
+      .attr("x", width/2 + (10*20) + 3)
+      .attr("y", height-3)
+      .text("10");
 
 $("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
 $("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
 framenum++;
 };
 
-var updInt = setInterval(drawlidar, 400);
-
-$('#lidar').bind('destroyed', function() {
-	clearInterval(updInt);
-})
 
 </script>
 
@@ -209,6 +264,12 @@ $(function()
 {
 	$("aside li").removeClass("active");
 	$("#sensorstab").addClass("active");
+
+  var updInt = setInterval(drawlidar, 200);
+$('#lidar').bind('destroyed', function() {
+	clearInterval(updInt);
+})
+
 });
 </script>
 

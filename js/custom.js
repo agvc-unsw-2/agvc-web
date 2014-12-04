@@ -58,7 +58,7 @@ var PM = {
 		function connect(){
 			var server = $('meta[name=wsserver]').attr("content");
 			var host = "ws://" + server + "/socket/server/startDaemon.php";
-			var cbh;
+			var cbh, fcbh;
 
 			try{
 				PM.socket = new WebSocket(host);
@@ -68,8 +68,10 @@ var PM = {
 				PM.socket.onopen = function(){
 					$("#aside").removeClass("bg-danger");
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (open)');
+					fcbh = setInterval(fastTick, 200);
 					cbh = setInterval(tick, 2000);
 					tick();
+					fastTick();
 				}
 
 				PM.socket.onmessage = function(msg){
@@ -80,6 +82,7 @@ var PM = {
 
 				PM.socket.onclose = function(){
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (Closed)');
+					clearInterval(fcbh);
 					clearInterval(cbh);
 					$("#aside").addClass("bg-danger");
 					setTimeout(connect, 3000);
@@ -89,11 +92,15 @@ var PM = {
 				PM.message('<p>Error'+exception);
 			}
 
+      function fastTick() {
+				if($("#sensorframe").exists()) PM.Service.sensor();
+				if($("#mapframe").exists()) PM.Service.map();
+      }
+
 			function tick() {
 				PM.send('ping');
 				if($("#processlist").exists()) PM.send('plist');
 				if($("#statuslist").exists()) PM.send('statuslist');
-				if($("#mapframe").exists()) PM.Service.map();
 				if($("#logpanel").exists()) PM.Service.log();
 			}
 
@@ -142,6 +149,11 @@ var PM = {
 						}
 					});
 				}
+				else if(obj['r'] == 'sensor') {
+					if('laserscan' in obj['sensorinfo']) {
+            laserdata = obj['sensorinfo']['laserscan'];
+          }
+				}
 				else if(obj['r'] == 'map') {
 					$("#mapframe")[0].contentWindow.postMessage(obj, "*"); 
 				}
@@ -186,6 +198,9 @@ var PM = {
 		},
 		startstopallproc: function() {
 			PM.send({r: 'startstopallproc'});
+		},
+		sensor: function() {
+			PM.send({r: 'sensor'});
 		},
 		map: function() {
 			PM.send({r: 'map'});
