@@ -9,6 +9,28 @@ if($useLayout)
   <img src="<?= LOGO_URL?>" style="max-height: 80px; max-width: 80%; display: block"></img>
   <div class="row">
 
+  <div class="col-md-12">
+    <div id="panel-lidar" class="panel panel-default">
+      <div class="panel-heading bg-primary"><h3 class="panel-title"> Platform </h3></div>
+      <div class="panel-body">
+        <form class="form-horizontal form-bordered">
+          <div class="form-group" style="padding-left: 20px">
+            <label class="col-md-1 col-sm-1 col-xs-3 control-label" for="encolin">Battery (v)</label>
+            <div class="col-md-1 col-sm-1 col-xs-3"><input type="text" class="form-control" id="battery" disabled value="12.73"></div>
+            <label class="col-md-2 col-sm-2 col-xs-3 control-label" for="encolin">E-Stop</label>
+            <div class="col-md-1 col-sm-1 col-xs-3"><input type="text" class="form-control" id="estop" disabled value="false"></div>
+          <!--/div>
+          <div class="form-group"-->
+            <label class="col-md-2 col-sm-2 col-xs-3 control-label" for="encolin">Linear Vel</label>
+            <div class="col-md-1 col-sm-1 col-xs-3"><input type="text" class="form-control" id="cmdvellin" disabled value="-0.0013"></div>
+            <label class="col-md-2 col-sm-1 col-xs-3 control-label" for="encoang">Angular Vel</label>
+            <div class="col-md-1 col-sm-1 col-xs-3"><input type="text" class="form-control" id="cmdvelang" disabled value="0.03"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Left </h3></div>
@@ -39,36 +61,14 @@ if($useLayout)
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Drive </h3></div>
       <div class="panel-body">
-        <iframe frameborder=0 src="drive.php" style="height: 255px; min-height: 255px; width:100%" scrolling="false"></iframe>
+        <iframe frameborder=0 src="drive.php" style="height: 230px; min-height: 230px; width:100%" scrolling="false"></iframe>
         <!--div id="lidar"></div-->              
       </div>
     </div>
   </div>
 
-  <div class="col-md-6">
-    <div id="panel-lidar" class="panel panel-default">
-      <div class="panel-heading bg-primary"><h3 class="panel-title"> Platform </h3></div>
-      <div class="panel-body">
-        <form class="form-horizontal form-bordered">
-          <div class="form-group">
-            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encolin">Battery (v)</label>
-            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuy" disabled value="12.73"></div>
-            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encolin">E-Stop</label>
-            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuy" disabled value="false"></div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encolin">Linear Vel</label>
-            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuy" disabled value="-0.0013"></div>
-            <label class="col-md-3 col-sm-3 col-xs-6 control-label" for="encoang">Angular Vel</label>
-            <div class="col-md-3 col-sm-3 col-xs-6"><input type="text" class="form-control" id="imuz" disabled value="0.03"></div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
-
-  <div class="col-md-6">
+  <!--div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> IMU </h3></div>
       <div class="panel-body">
@@ -128,7 +128,7 @@ if($useLayout)
         </form>
       </div>
     </div>
-  </div>
+  </div-->
 
   <!--div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
@@ -159,6 +159,12 @@ if($useLayout)
 
 var framenum = 100;
 var laserdata = {};
+var barrels = {};
+var lines = {};
+
+var battery = 0;
+var estop = true;
+var cmdvel = {'lin': 0, 'ang': 0};
 
 function pad (str, max) {
   str = str.toString();
@@ -169,13 +175,13 @@ function drawlidar() {
 
 var margin = {top: 0, right: 0, bottom: 0, left: 0},
     width = $("#lidar").width() - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
+    height = 225 - margin.top - margin.bottom;
 
 var points = d3.range(1, 110).map(function(i) {
   return [i * 110 / 2500 + (3*3.141592653/4), 75 + .15* Math.random() * (height - 100)];
 });
 
-if(laserdata) {
+if(laserdata && 'ranges' in laserdata) {
   points = [];
   angle = laserdata['min'];
   for(i = 0; i < laserdata['ranges'].length; i++) {
@@ -196,6 +202,7 @@ var svg = d3.select("#lidar").append("svg")
   //.append("g");
    //.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+ // lidar points
  svg.selectAll("circle")
       .data(points)
       .enter()
@@ -204,21 +211,44 @@ var svg = d3.select("#lidar").append("svg")
       .attr("cy", function(d) { return Math.sin(d[0])*d[1] + height - 15; })
       .attr("r", 1);
 
+  svg.selectAll("circle2")
+      .data(barrels)
+      .enter()
+      .append("circle")
+      .attr("cx", function(d) { return d[1]*20 + width/2; })
+      .attr("cy", function(d) { return -d[0]*20 + height - 15; })
+      .attr("r", .30 * 20)
+      .style("stroke", "#cc0")
+      .style("fill", "#cc0");
+
+  svg.selectAll("line")
+      .data(lines)
+      .enter()
+      .append("line")
+      .attr("x1", function(d) { return d[1]*20 + width/2; })
+      .attr("y1", function(d) { return -d[0]*20 + height - 15; })
+      .attr("x2", function(d) { return d[3]*20 + width/2; })
+      .attr("y2", function(d) { return -d[2]*20 + height - 15; })
+      .attr("stroke-width", .15 * 20)
+      .attr("stroke", "#993");
+
+  // vertical lines
   svg.append("line")
       .attr("x1", width/2)
       .attr("y1", 0)
       .attr("x2", width/2)
       .attr("y2", height)
       .attr("stroke-width", 1)
-      .attr("stroke", "black");
+      .attr("stroke", "#666");
 
+  // horizontal lines
   svg.append("line")
       .attr("x1", 0)
       .attr("y1", height-15)
       .attr("x2", width)
       .attr("y2", height-15)
       .attr("stroke-width", 1)
-      .attr("stroke", "black");
+      .attr("stroke", "#666");
 
   // vehicle line
   svg.append("line")
@@ -229,17 +259,19 @@ var svg = d3.select("#lidar").append("svg")
       .attr("stroke-width", .8 * 20)
       .attr("stroke", "red");
 
+  // distance line 5m
   svg.append("circle")
       .attr("cx", width/2)
       .attr("cy", height-15)
       .attr("r", 5 * 20)
-      .style("stroke", "gray");
+      .style("stroke", "#999");
 
+  // distance line 10m
   svg.append("circle")
       .attr("cx", width/2)
       .attr("cy", height-15)
       .attr("r", 10 * 20)
-      .style("stroke", "gray");
+      .style("stroke", "#ccc");
 
   svg.append("text")
       .attr("x", width/2 + (5*20) + 3)
@@ -253,7 +285,13 @@ var svg = d3.select("#lidar").append("svg")
 
 $("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
 $("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
+$("#estop").attr('value', !estop);
+$("#battery").attr('value', Math.round(battery*100)/100);
+$("#cmdvelang").attr('value', Math.round(cmdvel['ang']*100)/100);
+$("#cmdvellin").attr('value', Math.round(cmdvel['lin']*100)/100);
 framenum++;
+
+
 };
 
 

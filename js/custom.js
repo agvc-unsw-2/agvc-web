@@ -68,7 +68,7 @@ var PM = {
 				PM.socket.onopen = function(){
 					$("#aside").removeClass("bg-danger");
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (open)');
-					fcbh = setInterval(fastTick, 200);
+					fcbh = setInterval(fastTick, 100);
 					cbh = setInterval(tick, 2000);
 					tick();
 					fastTick();
@@ -152,7 +152,29 @@ var PM = {
 				else if(obj['r'] == 'sensor') {
 					if('laserscan' in obj['sensorinfo']) {
             laserdata = obj['sensorinfo']['laserscan'];
+            barrels = [];
+            lines = [];
           }
+					if('barrels' in obj['sensorinfo'] && 'pts' in obj['sensorinfo']['barrels']) 
+            barrels = obj['sensorinfo']['barrels']['pts'];
+
+					if('lines' in obj['sensorinfo']) { 
+            lines = [];
+            line = [];
+            for(i = 0; i < obj['sensorinfo']['lines']['pts'].length; i+=2) {
+              line = [ obj['sensorinfo']['lines']['pts'][i][0], obj['sensorinfo']['lines']['pts'][i][1], obj['sensorinfo']['lines']['pts'][i+1][0], obj['sensorinfo']['lines']['pts'][i+1][1] ]
+              lines.push(line);
+            }
+            // lines = obj['sensorinfo']['lines'];
+          }
+          
+          if('estop' in obj['sensorinfo'])
+            estop = obj['sensorinfo']['estop']['val'];
+          if('battery' in obj['sensorinfo'])
+            battery = obj['sensorinfo']['battery']['val'];
+          if('cmdvel' in obj['sensorinfo'])
+            cmdvel = obj['sensorinfo']['cmdvel'];
+
 				}
 				else if(obj['r'] == 'map') {
 					$("#mapframe")[0].contentWindow.postMessage(obj, "*"); 

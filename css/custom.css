@@ -343,8 +343,7 @@ circle,
 
 circle {
   fill: #fff;
-  fill-opacity: .2;
-  cursor: move;
+  fill-opacity: 0;
 }
 
 .selected {
