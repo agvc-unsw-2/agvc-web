@@ -15,16 +15,16 @@ if($useLayout)
       <div class="panel-body">
         <form class="form-horizontal form-bordered">
           <div class="form-group" style="padding-left: 20px">
-            <label class="col-md-1 col-sm-1 col-xs-3 control-label" for="encolin">Battery (v)</label>
-            <div class="col-md-1 col-sm-1 col-xs-3"><input type="text" class="form-control" id="battery" disabled value="12.73"></div>
-            <label class="col-md-2 col-sm-2 col-xs-3 control-label" for="encolin">E-Stop</label>
-            <div class="col-md-1 col-sm-1 col-xs-3"><input type="text" class="form-control" id="estop" disabled value="false"></div>
+            <label class="col-md-1 col-sm-1 col-xs-6 control-label" for="encolin">Battery</label>
+            <div class="col-md-1 col-sm-1 col-xs-5"><input type="text" class="form-control" id="battery" disabled value="0.00"></div>
+            <label class="col-md-2 col-sm-2 col-xs-6 control-label" for="encolin">E-Stop</label>
+            <div class="col-md-1 col-sm-1 col-xs-5"><input type="text" class="form-control" id="estop" disabled value="F"></div>
           <!--/div>
           <div class="form-group"-->
-            <label class="col-md-2 col-sm-2 col-xs-3 control-label" for="encolin">Linear Vel</label>
-            <div class="col-md-1 col-sm-1 col-xs-3"><input type="text" class="form-control" id="cmdvellin" disabled value="-0.0013"></div>
-            <label class="col-md-2 col-sm-1 col-xs-3 control-label" for="encoang">Angular Vel</label>
-            <div class="col-md-1 col-sm-1 col-xs-3"><input type="text" class="form-control" id="cmdvelang" disabled value="0.03"></div>
+            <label class="col-md-2 col-sm-2 col-xs-6 control-label" for="encolin">Linear Vel</label>
+            <div class="col-md-1 col-sm-1 col-xs-5"><input type="text" class="form-control" id="cmdvellin" disabled value="0.00"></div>
+            <label class="col-md-2 col-sm-1 col-xs-6 control-label" for="encoang">Rotate Vel</label>
+            <div class="col-md-1 col-sm-1 col-xs-5"><input type="text" class="form-control" id="cmdvelang" disabled value="0.00"></div>
           </div>
         </form>
       </div>
@@ -285,7 +285,7 @@ var svg = d3.select("#lidar").append("svg")
 
 $("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
 $("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
-$("#estop").attr('value', !estop);
+$("#estop").attr('value', estop ? 'F' : 'T');
 $("#battery").attr('value', Math.round(battery*100)/100);
 $("#cmdvelang").attr('value', Math.round(cmdvel['ang']*100)/100);
 $("#cmdvellin").attr('value', Math.round(cmdvel['lin']*100)/100);
