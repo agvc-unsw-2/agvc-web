@@ -8,7 +8,7 @@ if($useLayout)
 
 $systemLoadAvg = sys_getloadavg();
 $numCpus = num_cpus();
-$cpuLoadPct = $systemLoadAvg[0]/$numCpus;
+$cpuLoadPct = 2.0 * $systemLoadAvg[0]/$numCpus;
 $freeDiskSpacePct = disk_free_space("./") / disk_total_space("./");
 $memInfo = getSystemMemInfo();
 $freeMemPct = 1 - ($memInfo['MemFree'] / $memInfo['MemTotal']);
@@ -130,6 +130,11 @@ Filesystem:
 passthru('/bin/df -h');
 ?>
 </pre>
+			</div>    
+
+			<div class="col-md-6 col-sm-12">
+Shell:
+<iframe src="http://<?php echo $_SERVER['SERVER_ADDR']; ?>:4200" style="width:100%" />
 			</div>    
 			<!--div class="col-md-6 col-sm-12">
 ROS Topic List:

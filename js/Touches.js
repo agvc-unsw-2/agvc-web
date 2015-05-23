@@ -94,7 +94,7 @@ function draw() {
 		var tFirst = touchFirst.item(touch.identifier);
 
 		var line = [touch.x - tFirst.x, touch.y - tFirst.y];
-		var cmd = {lin: -line[1] / 100, ang: -line[0] / 50};
+		var cmd = {lin: -line[1] / 100, ang: -line[0] / 175};
 
 
 		if(Math.abs(cmd['lin']) < .05)
@@ -102,11 +102,11 @@ function draw() {
 		if(Math.abs(cmd['ang']) < .1)
 			cmd['ang'] = 0;
 
-		if(Math.abs(cmd['ang']) > 1.5)
-			cmd['ang'] = 1.5 * (cmd['ang'] > 0 ? 1 : -1);
+		if(Math.abs(cmd['ang']) > 2.5)
+			cmd['ang'] = 2.5 * (cmd['ang'] > 0 ? 1 : -1);
 
-		if(Math.abs(cmd['lin']) > 2)
-			cmd['lin'] = 2.0 * (cmd['lin'] > 0 ? 1 : -1);
+		if(Math.abs(cmd['lin']) > 3)
+			cmd['lin'] = 3.0 * (cmd['lin'] > 0 ? 1 : -1);
 		   
 		
 		c.beginPath();

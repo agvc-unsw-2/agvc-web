@@ -136,6 +136,9 @@ var PM = {
 					obj['status'].forEach(function(d) {
 						if('group' in d) {
 							var bad = (d['rc'] != '0' || d['line'].trim() == '');
+              if(!('line' in d))
+                d['line'] = '';
+
 							$("#statuslist").append(
 								'<div class="col-md-3 col-sm-6">\
 								<div class="panel panel-animated ' + (bad ? 'panel-danger' : 'bg-cloud') + ' animated fadeInUp" style="visibility: visible;">\
