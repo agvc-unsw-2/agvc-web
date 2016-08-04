@@ -1,6 +1,23 @@
         </div>
       </div>
     </section>
+	<div style="display: none">
+	  <div id="errorStatusPlayer"></div>
+	  <input type="hidden" id="errorStatusTime" value="-1"></input>
+	  <script type="text/javascript">
+	  window.addEventListener("touchend", ios_unlock_sound, false);
+	  function ios_unlock_sound(event) {    
+		  var buffer = g_WebAudioContext.createBuffer(1, 1, 22050);
+		  var source = g_WebAudioContext.createBufferSource();
+		  source.buffer = buffer;
+		  source.connect(g_WebAudioContext.destination);
+		  source.noteOn(0);
+		  window.removeEventListener("touchend", ios_unlock_sound, false);
+	  }
+	</script>
+
+    </div>
+
     <footer class="footer"></footer>
     <script src="js/jquery.pjax.min.js"></script>
     <script src="js/jquery.easypiechart.min.js"></script>

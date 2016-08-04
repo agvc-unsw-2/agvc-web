@@ -15,16 +15,16 @@ if($useLayout)
       <div class="panel-body">
         <form class="form-horizontal form-bordered">
           <div class="form-group" style="padding-left: 20px">
-            <label class="col-md-1 col-sm-1 col-xs-6 control-label" for="encolin">Battery</label>
-            <div class="col-md-1 col-sm-1 col-xs-5"><input type="text" class="form-control" id="battery" disabled value="0.00"></div>
-            <label class="col-md-2 col-sm-2 col-xs-6 control-label" for="encolin">E-Stop</label>
-            <div class="col-md-1 col-sm-1 col-xs-5"><input type="text" class="form-control" id="estop" disabled value="F"></div>
+            <label class="col-lg-1 col-sm-3 col-xs-6 control-label" for="encolin">Battery</label>
+            <div class="col-lg-2 col-sm-3 col-xs-5"><input type="text" class="form-control" id="battery" disabled value="0.00"></div>
+            <label class="col-lg-1 col-sm-3 col-xs-6 control-label" for="encolin">E-Stop</label>
+            <div class="col-lg-2 col-sm-3 col-xs-5"><input type="text" class="form-control" id="estop" disabled value="F"></div>
           <!--/div>
           <div class="form-group"-->
-            <label class="col-md-2 col-sm-2 col-xs-6 control-label" for="encolin">Linear Vel</label>
-            <div class="col-md-1 col-sm-1 col-xs-5"><input type="text" class="form-control" id="cmdvellin" disabled value="0.00"></div>
-            <label class="col-md-2 col-sm-1 col-xs-6 control-label" for="encoang">Rotate Vel</label>
-            <div class="col-md-1 col-sm-1 col-xs-5"><input type="text" class="form-control" id="cmdvelang" disabled value="0.00"></div>
+            <label class="col-lg-1 col-sm-3 col-xs-6 control-label" for="encolin">Linear V</label>
+            <div class="col-lg-2 col-sm-3 col-xs-5"><input type="text" class="form-control" id="cmdvellin" disabled value="0.00" width="100%"></div>
+            <label class="col-lg-1 col-sm-3 col-xs-6 control-label" for="encoang">Rotate V</label>
+            <div class="col-lg-2 col-sm-3 col-xs-5"><input type="text" class="form-control" id="cmdvelang" disabled value="0.00" width="100%"></div>
           </div>
         </form>
       </div>
@@ -48,7 +48,7 @@ if($useLayout)
     </div>
   </div>
 
-  <div class="col-md-6">
+  <!--div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Lidar </h3></div>
       <div class="panel-body">
@@ -62,10 +62,9 @@ if($useLayout)
       <div class="panel-heading"><h3 class="panel-title"> Drive </h3></div>
       <div class="panel-body">
         <iframe frameborder=0 src="drive.php" style="height: 230px; min-height: 230px; width:100%" scrolling="false"></iframe>
-        <!--div id="lidar"></div-->              
       </div>
     </div>
-  </div>
+  </div-->
 
 
   <!--div class="col-md-6">
@@ -285,10 +284,10 @@ var svg = d3.select("#lidar").append("svg")
 
 $("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
 $("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
-$("#estop").attr('value', estop ? 'F' : 'T');
+$("#estop").attr('value', estop);
 $("#battery").attr('value', Math.round(battery*100)/100);
 $("#cmdvelang").attr('value', Math.round(cmdvel['ang']*100)/100);
-$("#cmdvellin").attr('value', Math.round(cmdvel['lin']*100)/100);
+$("#cmdvellin").attr('value', typeof cmdvel['lin'] == 'string' ? cmdvel['lin'] : Math.round(cmdvel['lin']*100)/100);
 framenum++;
 
 

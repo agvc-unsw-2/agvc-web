@@ -31,7 +31,7 @@
   <body>
     <header class="header"></header>
     <section class="section" id="section">
-      <aside class="side-left" id="aside">
+      <aside class="side-left" id="aside" ondragstart="return false">
                 <ul class="sidebar">
                     <li class="" id="dashboardtab">
                         <a href="dashboard.php" data-pjax=".content-body" onclick="activateTab('dashboardtab')">
@@ -43,6 +43,12 @@
                         <a href="process.php" data-pjax=".content-body" onclick="activateTab('processtab')">
                             <i class="sidebar-icon fa fa-tasks"></i>
                             <span class="sidebar-text">Processes</span>
+                        </a>
+                    </li><!--/sidebar-item-->
+                    <li id="servicestab">
+                        <a href="services.php" data-pjax=".content-body" onclick="activateTab('servicestab')">
+                            <i class="sidebar-icon fa fa-database"></i>
+                            <span class="sidebar-text">Services</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li id="maptab">

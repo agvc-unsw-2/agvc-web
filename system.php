@@ -119,7 +119,7 @@ if($power) {
 Processes:
 <pre class="pre-scrollable small">
 <?php
-passthru('/usr/bin/top -b -n 1 -u husky');
+passthru('/usr/bin/top -b -n 1 -u `getent passwd 1000 | cut -d: -f1`');
 ?>
 </pre>
 			</div>    
@@ -132,21 +132,9 @@ passthru('/bin/df -h');
 </pre>
 			</div>    
 
-			<div class="col-md-6 col-sm-12">
+			<!--div class="col-md-6 col-sm-12">
 Shell:
 <iframe src="http://<?php echo $_SERVER['SERVER_ADDR']; ?>:4200" style="width:100%" />
-			</div>    
-			<!--div class="col-md-6 col-sm-12">
-ROS Topic List:
-<pre class="pre-scrollable small">
-ERROR: Unable to communicate with master!
-</pre>
-			</div>    
-			<div class="col-md-6 col-sm-12">
-ROS Transform List:
-<pre class="pre-scrollable small">
-ERROR: Unable to communicate with master!
-</pre>
 			</div-->    
 		</div>
 

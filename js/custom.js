@@ -58,7 +58,7 @@ var PM = {
 		function connect(){
 			var server = $('meta[name=wsserver]').attr("content");
 			var host = "ws://" + server + "/socket/server/startDaemon.php";
-			var cbh, fcbh;
+			var cbh, fcbh, scbh;
 
 			try{
 				PM.socket = new WebSocket(host);
@@ -68,10 +68,12 @@ var PM = {
 				PM.socket.onopen = function(){
 					$("#aside").removeClass("bg-danger");
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (open)');
-					fcbh = setInterval(fastTick, 100);
+					fcbh = setInterval(fastTick, 200);
 					cbh = setInterval(tick, 2000);
+					scbh = setInterval(slowTick, 5000);
 					tick();
 					fastTick();
+					slowTick();
 				}
 
 				PM.socket.onmessage = function(msg){
@@ -84,6 +86,7 @@ var PM = {
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (Closed)');
 					clearInterval(fcbh);
 					clearInterval(cbh);
+					clearInterval(scbh);
 					$("#aside").addClass("bg-danger");
 					setTimeout(connect, 3000);
 				}			
@@ -104,8 +107,37 @@ var PM = {
 				if($("#logpanel").exists()) PM.Service.log();
 			}
 
+			function slowTick() {
+				if($("#servicelist").exists()) PM.send('slist');
+			}
+
 			function handle(obj) {
-				if(obj['r'] == 'plist') {
+				if(obj['r'] == 'ping') {
+					var lastTime = $("#errorStatusTime").val();
+					if('errStatusTime' in obj && obj['errStatusTime'] != lastTime && obj['errStatusTime'] != -1) {
+						$("#errorStatusTime").val(obj['errStatusTime']);
+						$("#errorStatusPlayer").html('<audio autoplay="true" preload="auto" id="audio"><source src="/data/nbstatus.wav?' + Math.random() + '" type="audio/x-wav"/></audio>');
+						var audio = document.getElementById('audio');
+						audio.load();
+						audio.play();
+					}
+				}
+				else if(obj['r'] == 'slist') {
+					$(".svcrow").remove();
+					obj['services'].forEach(function(d) {
+						$("#servicelist").append(
+							'<tr class="svcrow"> \
+							<td><h4 class="proc">' + d['name'] + '</h4></td> \
+							<td class="text-right"> \
+							<button type="button" class="btn btn-icon btn-warning" onclick="PM.Service.runservice(\"' + d['name'] + '\")"><i class="fa fa-check-circle"></i>Run</button> \
+							</td> \
+							</tr>'
+						);
+
+
+					});
+				}
+				else if(obj['r'] == 'plist') {
 					$(".procrow").remove();
 					var runningProcs = 0;
 					obj['proc'].forEach(function(d) {
