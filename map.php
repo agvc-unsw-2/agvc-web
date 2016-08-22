@@ -129,7 +129,11 @@ function googleinitialize(myLatlng) {
 		    map: map,
                     icon: {
 		      path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-		      scale: 3,
+			  fillOpacity: 0.8,
+			  fillColor: 'yellow',
+			  strokeColor: 'red',
+			  strokeWeight: 2,
+		      scale: 4,
                       rotation: 0
                     },
                     title:"Vehicle"
