@@ -34,16 +34,16 @@ if($useLayout)
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Left </h3></div>
-      <div class="panel-body">
-        <img id="camera1" src="data/left.jpg" style="width: 100%; max-height: 240px">
+      <div class="panel-body" style="text-align: center">
+        <img id="camera1" src="imgs/ring.gif" style="max-height: 360px; height: auto; width: 100%; object-fit: contain">
       </div>
     </div>
   </div>
   <div class="col-md-6">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Right </h3></div>
-      <div class="panel-body">
-        <img id="camera2" src="data/right.jpg" style="width: 100%; max-height: 240px">
+      <div class="panel-body" style="text-align: center">
+        <img id="camera2" src="imgs/ring.gif" style="max-height: 360px; height: auto; width: 100%; object-fit: contain">
       </div>
     </div>
   </div>

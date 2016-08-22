@@ -129,7 +129,7 @@ var PM = {
 							'<tr class="svcrow"> \
 							<td><h4 class="proc">' + d['name'] + '</h4></td> \
 							<td class="text-right"> \
-							<button type="button" class="btn btn-icon btn-warning" onclick="PM.Service.runservice(\"' + d['name'] + '\")"><i class="fa fa-check-circle"></i>Run</button> \
+							<button type="button" class="btn btn-icon btn-warning" onclick="PM.Service.runservice(\'' + d['name'] + '\')"><i class="fa fa-check-circle"></i>Run</button> \
 							</td> \
 							</tr>'
 						);
@@ -242,7 +242,7 @@ var PM = {
 	},
 
 	message: function (msg){
-		console.log(msg + '</p>');
+		//console.log(msg + '</p>');
 	},
 
 	Service: {
@@ -256,6 +256,10 @@ var PM = {
 		startstopallproc: function() {
 			PM.send({r: 'startstopallproc'});
 		},
+		runservice: function(key) {
+			PM.send({r: 'runservice', key: key});
+		},
+
 		sensor: function() {
 			PM.send({r: 'sensor'});
 		},
