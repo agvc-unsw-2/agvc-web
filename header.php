@@ -33,12 +33,12 @@
     <section class="section" id="section">
       <aside class="side-left" id="aside" ondragstart="return false">
                 <ul class="sidebar">
-                    <li class="" id="dashboardtab">
+                    <!--li class="" id="dashboardtab">
                         <a href="dashboard.php" data-pjax=".content-body" onclick="activateTab('dashboardtab')">
                             <i class="sidebar-icon fa fa-home"></i>
                             <span class="sidebar-text">Dashboard</span>
                         </a>
-                    </li><!--/sidebar-item-->
+                    </li--><!--/sidebar-item-->
                     <li id="processtab">
                         <a href="process.php" data-pjax=".content-body" onclick="activateTab('processtab')">
                             <i class="sidebar-icon fa fa-tasks"></i>
@@ -48,12 +48,11 @@
                     <li id="servicestab">
                         <a href="services.php" data-pjax=".content-body" onclick="activateTab('servicestab')">
                             <i class="sidebar-icon fa fa-database"></i>
-                            <span class="sidebar-text">Services</span>
+                            <span class="sidebar-text">Actions</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li id="maptab">
                         <a href="mapframe.php" data-pjax=".content-body" onclick="activateTab('maptab')">
-                            <div class="badge badge-primary animated animated-repeat wobble">3</div>
                             <i class="sidebar-icon fa fa-map-marker"></i>
                             <span class="sidebar-text">Map</span>
                         </a>
@@ -68,6 +67,13 @@
                         <a href="system.php" data-pjax=".content-body" onclick="activateTab('systemtab')">
                             <i class="sidebar-icon fa fa-laptop"></i>
                             <span class="sidebar-text">System</span>
+                        </a>
+                    </li><!--/sidebar-item-->
+                    <li id="diagnosticstab">
+                        <a href="diagnostics.php" data-pjax=".content-body" onclick="activateTab('diagnosticstab')">
+                            <div class="badge badge-danger hidden">lorem ipsum</div>
+                            <i class="sidebar-icon fa fa-newspaper-o"></i>
+                            <span class="sidebar-text">Diagnostics</span>
                         </a>
                     </li><!--/sidebar-item-->
                     <li id="logtab">
