@@ -162,6 +162,7 @@ var barrels = {};
 var lines = {};
 
 var battery = 0;
+var time_left = 0;
 var estop = true;
 var cmdvel = {'lin': 0, 'ang': 0};
 
@@ -285,7 +286,10 @@ var svg = d3.select("#lidar").append("svg")
 $("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
 $("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
 $("#estop").attr('value', estop);
-$("#battery").attr('value', Math.round(battery*100)/100);
+var battstr = Math.round(battery*100)/100;
+if(time_left > 0)
+	battstr += ' (' + Math.floor(time_left/60) +':' + ('0' + time_left % 60).slice(-2) + ')';
+$("#battery").attr('value', battstr);
 $("#cmdvelang").attr('value', Math.round(cmdvel['ang']*100)/100);
 $("#cmdvellin").attr('value', typeof cmdvel['lin'] == 'string' ? cmdvel['lin'] : Math.round(cmdvel['lin']*100)/100);
 framenum++;

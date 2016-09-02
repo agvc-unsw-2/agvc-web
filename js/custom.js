@@ -207,6 +207,8 @@ var PM = {
             estop = obj['sensorinfo']['estop']['val'];
           if('battery' in obj['sensorinfo'])
             battery = obj['sensorinfo']['battery']['val'];
+          if('time_left' in obj['sensorinfo'])
+            time_left = obj['sensorinfo']['time_left']['val'];
           if('cmdvel' in obj['sensorinfo'])
             cmdvel = obj['sensorinfo']['cmdvel'];
 
