@@ -95,15 +95,16 @@ var PM = {
 				PM.message('<p>Error'+exception);
 			}
 
-      function fastTick() {
+			function fastTick() {
 				if($("#sensorframe").exists()) PM.Service.sensor();
 				if($("#mapframe").exists()) PM.Service.map();
-      }
+			}
 
 			function tick() {
 				PM.send('ping');
 				if($("#processlist").exists()) PM.send('plist');
 				if($("#statuslist").exists()) PM.send('statuslist');
+				if($("#diagnosticspanel").exists()) PM.Service.diagnostics();
 				if($("#logpanel").exists()) PM.Service.log();
 			}
 
@@ -112,6 +113,7 @@ var PM = {
 			}
 
 			function handle(obj) {
+				//console.log(obj);
 				if(obj['r'] == 'ping') {
 					var lastTime = $("#errorStatusTime").val();
 					if('errStatusTime' in obj && obj['errStatusTime'] != lastTime && obj['errStatusTime'] != -1) {
@@ -120,6 +122,9 @@ var PM = {
 						var audio = document.getElementById('audio');
 						audio.load();
 						audio.play();
+					}
+					if('dxerr' in obj && obj['dxerr']) {
+						$("#diagnosticstab div.badge").removeClass("hidden").text(obj['dxerr']).stop().fadeOut("fast").fadeIn("fast");
 					}
 				}
 				else if(obj['r'] == 'slist') {
@@ -168,8 +173,9 @@ var PM = {
 					obj['status'].forEach(function(d) {
 						if('group' in d) {
 							var bad = (d['rc'] != '0' || d['line'].trim() == '');
-              if(!('line' in d))
-                d['line'] = '';
+
+							if(!('line' in d))
+								d['line'] = '';
 
 							$("#statuslist").append(
 								'<div class="col-md-3 col-sm-6">\
@@ -186,33 +192,70 @@ var PM = {
 				}
 				else if(obj['r'] == 'sensor') {
 					if('laserscan' in obj['sensorinfo']) {
-            laserdata = obj['sensorinfo']['laserscan'];
-            barrels = [];
-            lines = [];
-          }
+						laserdata = obj['sensorinfo']['laserscan'];
+						barrels = [];
+						lines = [];
+					}
 					if('barrels' in obj['sensorinfo'] && 'pts' in obj['sensorinfo']['barrels']) 
-            barrels = obj['sensorinfo']['barrels']['pts'];
+						barrels = obj['sensorinfo']['barrels']['pts'];
 
 					if('lines' in obj['sensorinfo']) { 
-            lines = [];
-            line = [];
-            for(i = 0; i < obj['sensorinfo']['lines']['pts'].length; i+=2) {
-              line = [ obj['sensorinfo']['lines']['pts'][i][0], obj['sensorinfo']['lines']['pts'][i][1], obj['sensorinfo']['lines']['pts'][i+1][0], obj['sensorinfo']['lines']['pts'][i+1][1] ]
-              lines.push(line);
-            }
-            // lines = obj['sensorinfo']['lines'];
-          }
+						lines = [];
+						line = [];
+						for(i = 0; i < obj['sensorinfo']['lines']['pts'].length; i+=2) {
+							line = [ obj['sensorinfo']['lines']['pts'][i][0], obj['sensorinfo']['lines']['pts'][i][1], obj['sensorinfo']['lines']['pts'][i+1][0], obj['sensorinfo']['lines']['pts'][i+1][1] ]
+								lines.push(line);
+						}
+						// lines = obj['sensorinfo']['lines'];
+					}
           
-          if('estop' in obj['sensorinfo'])
-            estop = obj['sensorinfo']['estop']['val'];
-          if('battery' in obj['sensorinfo'])
-            battery = obj['sensorinfo']['battery']['val'];
-          if('cmdvel' in obj['sensorinfo'])
-            cmdvel = obj['sensorinfo']['cmdvel'];
+					if('estop' in obj['sensorinfo'])
+						estop = obj['sensorinfo']['estop']['val'];
+					if('battery' in obj['sensorinfo'])
+						battery = obj['sensorinfo']['battery']['val'];
+					if('cmdvel' in obj['sensorinfo'])
+						cmdvel = obj['sensorinfo']['cmdvel'];
 
 				}
 				else if(obj['r'] == 'map') {
 					$("#mapframe")[0].contentWindow.postMessage(obj, "*"); 
+				}
+				else if(obj['r'] == 'diagnostics') {
+					//console.log(obj['diagnostics']);
+					//$("#diagnosticspanel").children().remove();
+					obj['diagnostics'].forEach(function(d) {
+						var id = d['name'].replace(/[^a-zA-Z0-9]+/g, "-");
+						var headingstyle = '';
+						switch(d['level']) {
+							case 0: headingstyle = '-success'; break;
+							case 1: //headingstyle = '-warning'; break;
+							case 2: headingstyle = '-danger'; break;
+							case 3: headingstyle = '-info'; break;
+						}
+
+						var values = "<b>" + d['message'] + "</b><br/>";
+						d['values'].forEach(function(v) {
+							values += '' + v + '<br/>';
+						});
+
+						var el = $("#dx-" + id);
+						if(el.length == 0) {
+							el = $("#diagnosticspanel").append('<div id="dx-' + id + '" class="col-md-3 col-sm-6 col-lg-2">\
+							<div class="panel panel' + headingstyle + '" style="cursor: pointer" onclick="$(this).children().removeClass(\'hidden-xs\')">\
+								<div class="panel-heading"><h3 class="panel-title">' + d['name'] + '</h3></div>\
+								<div class="panel-body hidden-xs" id="dxt-' + id + '" style="margin: 9px; font-size: 10px"></div>\
+							</div>\
+							</div>').children().last();
+						}
+							
+						$("#dxt-" + id).html(values);
+						if(d['level'] > 0) {
+							$(el).find(".hidden-xs").removeClass("hidden-xs");
+							$(el).find(".panel-heading").addClass("bg" + headingstyle);
+						}
+
+					});
+					//$("#diagnosticpanel").html(
 				}
 				else if(obj['r'] == 'log') {
 					var output = '';
@@ -260,6 +303,9 @@ var PM = {
 			PM.send({r: 'runservice', key: key});
 		},
 
+		diagnostics: function() {
+			PM.send({r: 'diagnostics'});
+		},
 		sensor: function() {
 			PM.send({r: 'sensor'});
 		},

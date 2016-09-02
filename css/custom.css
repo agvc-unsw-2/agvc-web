@@ -103,7 +103,7 @@ line-height: 1.2em;
 background-color: #13A89E;
 color: #ecf0f1;
 /*color: #fff;*/
-cursor: default;
+cursor: pointer;
 }
 
 
@@ -192,15 +192,21 @@ list-style: none;
 background-color: #13A89E;
 color: #ecf0f1;
 }
+.badge.badge-danger, .label.label-danger {
+background-color: #C3383E;
+color: #ecf0f1;
+}
 .sidebar>li>a>.badge, .sidebar>li>a>.label {
 position: absolute;
-top: 5px;
-left: 60%;
+text-align: center;
+top: 10px;
+left: 20%;
+max-width: 50px;
+word-wrap: break-word;
+white-space: normal;
 padding: 2px 5px;
-font-size: 11px;
+font-size: 10px;
 font-weight: 400;
--webkit-animation-delay: 3s;
-animation-delay: 3s;
 }
 
 .btn.btn-icon {

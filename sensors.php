@@ -299,11 +299,13 @@ framenum++;
 <script>
 $(function()
 {
+	console.log("SensorFrame started");
 	$("aside li").removeClass("active");
 	$("#sensorstab").addClass("active");
 
   var updInt = setInterval(drawlidar, 200);
-$('#lidar').bind('destroyed', function() {
+$('#sensorframe').bind('destroyed', function() {
+	console.log("SensorFrame stopped");
 	clearInterval(updInt);
 })
 
