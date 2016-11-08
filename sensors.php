@@ -283,8 +283,10 @@ var svg = d3.select("#lidar").append("svg")
       .attr("y", height-3)
       .text("10");
 
-$("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
-$("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
+//$("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
+//$("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
+$("#camera1").attr('src', 'data/left.jpg?' + pad(framenum,4) + Math.random());
+$("#camera2").attr('src', 'data/right.jpg?' + pad(framenum,4) + Math.random());
 $("#estop").attr('value', estop);
 var battstr = Math.round(battery*100)/100;
 if(time_left > 0)
