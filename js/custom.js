@@ -124,7 +124,7 @@ var PM = {
 						audio.play();
 					}
 					if('dxerr' in obj && obj['dxerr']) {
-						$("#diagnosticstab div.badge").removeClass("hidden").text(obj['dxerr']).stop().fadeOut("fast").fadeIn("fast");
+						$("#diagnosticstab div.badge").removeClass("hidden").text(obj['dxerr']);//.stop().fadeOut("fast").fadeIn("fast");
 					}
 				}
 				else if(obj['r'] == 'slist') {
