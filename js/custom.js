@@ -153,8 +153,8 @@ var PM = {
 							'<tr class="procrow"> \
 							<td><h4 class="proc">' + d['name'] + '</h4></td> \
 							<td class="hidden-xs">' + d['pid'] + '</td> \
-							<td class="hidden-xs"></td> \
-							<td class="hidden-xs"></td> \
+							<td class="hidden-xs">' + d['mem'] + '</td> \
+							<td class="hidden-xs">' + d['cpu'] + '</td> \
 							<td class="text-right"> \
 							<button type="button" class="btn btn-icon ' + (d['pid'] ? 'btn-default' : 'btn-success') + '" ' + (d['pid'] ? 'disabled="disabled"' : '') + ' onclick="PM.Service.startproc(' + d['key'] + ')"><i class="fa ' + ((d['status'] == 'Starting' || d['status'] == 'Queued') ? 'fa-circle-o-notch fa-spin' : 'fa-check-circle') + '"></i>Start</button> \
 							<button type="button" class="btn btn-icon ' + (d['pid'] ? 'btn-danger' : 'btn-default') + '" ' + (d['pid'] || d['status']=='Starting' ? '' : 'disabled="disabled"') +' onclick="PM.Service.stopproc(' + d['key'] + ')"><i class="fa ' + (d['status'] == 'Stopping' ? 'fa-circle-o-notch fa-spin' : 'fa-exclamation') + '"></i>Stop</button> \

@@ -309,7 +309,7 @@ $(function()
 	$("aside li").removeClass("active");
 	$("#sensorstab").addClass("active");
 
-  var updInt = setInterval(drawlidar, 1000);
+  var updInt = setInterval(drawlidar, 500);
 $('#sensorframe').bind('destroyed', function() {
 	console.log("SensorFrame stopped");
 	clearInterval(updInt);

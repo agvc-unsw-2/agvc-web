@@ -15,7 +15,7 @@ if($useLayout)
                                 <th>Process Name</th>
                                 <th class="hidden-xs">PID</th>
                                 <th class="hidden-xs">Memory</th>
-                                <th class="hidden-xs">CPU Time</th>
+                                <th class="hidden-xs">CPU</th>
                                 <th></th>
                             </tr>
                         </thead>
