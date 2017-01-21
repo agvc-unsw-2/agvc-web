@@ -171,6 +171,16 @@ function pad (str, max) {
   return str.length < max ? pad("0" + str, max) : str;
 }
 
+var leftOK = true;
+var rightOK = true;
+
+$("#camera1").on('load', function() {
+	leftOK = true;
+});
+$("#camera2").on('load', function() {
+	rightOK = true;
+});
+
 function drawlidar() {
 
 var margin = {top: 0, right: 0, bottom: 0, left: 0},
@@ -285,8 +295,18 @@ var svg = d3.select("#lidar").append("svg")
 
 //$("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
 //$("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
-$("#camera1").attr('src', 'data/left.jpg?' + pad(framenum,4) + Math.random());
-$("#camera2").attr('src', 'data/right.jpg?' + pad(framenum,4) + Math.random());
+if(leftOK) {
+	$("#camera1").attr('src', 'data/left.jpg?' + pad(framenum,4) + Math.random());
+	leftOK = false;
+} else {
+	console.log("Left camera frame skipped");
+}
+if(rightOK) {
+	$("#camera2").attr('src', 'data/right.jpg?' + pad(framenum,4) + Math.random());
+	rightOK = false;
+} else {
+	console.log("Right camera frame skipped");
+}
 $("#estop").attr('value', estop);
 var battstr = Math.round(battery*100)/100;
 if(time_left > 0)
