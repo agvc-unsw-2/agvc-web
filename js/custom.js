@@ -102,6 +102,7 @@ var PM = {
 
 			function tick() {
 				PM.send('ping');
+				if($("#statelist").exists()) PM.Service.statelist();
 				if($("#processlist").exists()) PM.send('plist');
 				if($("#statuslist").exists()) PM.send('statuslist');
 				if($("#diagnosticspanel").exists()) PM.Service.diagnostics();
@@ -113,7 +114,7 @@ var PM = {
 			}
 
 			function handle(obj) {
-				//console.log(obj);
+				console.log(obj);
 				if(obj['r'] == 'ping') {
 					var lastTime = $("#errorStatusTime").val();
 					if('errStatusTime' in obj && obj['errStatusTime'] != lastTime && obj['errStatusTime'] != -1) {
@@ -259,6 +260,9 @@ var PM = {
 					});
 					//$("#diagnosticpanel").html(
 				}
+				else if(obj['r'] == 'statelist') {
+					$("#statelist").html(obj['state']);
+				}
 				else if(obj['r'] == 'log') {
 					var output = '';
 					obj['loginfo'].forEach(function(entry) {
@@ -304,7 +308,9 @@ var PM = {
 		runservice: function(key) {
 			PM.send({r: 'runservice', key: key});
 		},
-
+		statelist: function() {
+			PM.send({r: 'statelist'});
+		},
 		diagnostics: function() {
 			PM.send({r: 'diagnostics'});
 		},

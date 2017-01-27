@@ -82,6 +82,12 @@
                             <span class="sidebar-text">Logs</span>
                         </a>
                     </li><!--/sidebar-item-->
+                    <li id="statetab">
+                        <a href="state.php" data-pjax=".content-body" onclick="activateTab('statetab')">
+                            <i class="sidebar-icon fa fa-share-alt"></i>
+                            <span class="sidebar-text">State Machine</span>
+                        </a>
+                    </li><!--/sidebar-item-->
                     <li id="drivetab">
                         <a href="driveframe.php" data-pjax=".content-body" onclick="activateTab('drivetab')">
                             <i class="sidebar-icon fa fa-car"></i>
