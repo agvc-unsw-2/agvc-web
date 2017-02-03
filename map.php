@@ -145,6 +145,8 @@ google.maps.event.addListener(destmarker,'dragstart', function(event) {
 google.maps.event.addListener(destmarker,'dragend', function(event) {
     draggingDestination = false;
     var latlon = destmarker.getPosition();
+    $("#latlon").html(latlon.lat() + ", " + latlon.lng());
+
     var xy = {
               'y': ((latlon.lat() - lastobj['gps']['lat']) * meterpermillilat * 1000) + lastobj['mappos']['pos'][1],
 	      'x': ((latlon.lng() - lastobj['gps']['lng']) * meterpermillilng * 1000) + lastobj['mappos']['pos'][0],
@@ -179,5 +181,6 @@ google.maps.event.addListener(destmarker,'dragend', function(event) {
 <div id="map-canvas">
 Waiting for initialisation.
 </div>
+<div id="latlon" style="position: fixed; z-index: 999; bottom:0; right: 0; background-color: #fff; padding: 5px"></div>
 </body>
 </html>
