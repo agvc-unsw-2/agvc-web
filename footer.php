@@ -25,6 +25,15 @@
     <!--script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnvO1E29_wY49gCJCISs1vDzCnvfSznXg&sensor=false"></script-->
     <script src="js/d3.min.js"></script>
     <script src="js/custom.js"></script>
+
+	<script type="text/javascript">
+	$.get("buildinfo.php", function(data) {
+
+			console.log(data);
+			$("#buildinfo").html(data);
+	});
+	</script>
+	<div id="buildinfo" style="position: fixed; z-index: 999; top: 0; right: 0; pointer-events: none; background-color: #fff; padding: 1px"></div>
   </body>
 </html>
 
