@@ -31,7 +31,7 @@ if($power) {
 }
 ?>
 <div class="content-frame margin-bottom">
-<img src="<?= LOGO_URL?>" style="max-height: 80px; max-width: 80%"></img>
+<img src="<?= LOGO_URL?>" style="max-height: 40px; max-width: 80%"></img>
   <div class="row">
            <div id="server-stats">
                                 <div class="col-md-3 col-sm-6">

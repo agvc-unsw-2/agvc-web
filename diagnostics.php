@@ -6,7 +6,7 @@ if($useLayout)
 	require_once("header.php");
 ?>
 <div class="content-frame">
-<img src="<?= LOGO_URL?>" style="max-height: 80px; max-width: 80%"></img>
+<img src="<?= LOGO_URL?>" style="max-height: 40px; max-width: 80%"></img>
 <div id="diagnosticspanel" style="min-height: 375px" class="row">
 
 </div>

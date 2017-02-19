@@ -6,7 +6,7 @@ if($useLayout)
 	require_once("header.php");
 ?>
 <div class="content-frame">
-<img src="<?= LOGO_URL?>" style="max-height: 80px; max-width: 80%"></img>
+<img src="<?= LOGO_URL?>" style="max-height: 40px; max-width: 80%"></img>
 
 <button class="btn" id="startstopallproc" style="float: right; margin-top: 30px" onclick="PM.Service.startstopallproc()">FULL SYSTEM</button>
 <table class="table table-condensed table-striped">

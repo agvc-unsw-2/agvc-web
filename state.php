@@ -26,15 +26,59 @@ stroke: blue;
 .tick line{
 opacity: 0.2;
 }
+.action 
+{
+display: inline-block; padding: 10px; width: 55px; margin: 0 10px; text-align: center
+}
+.action small
+{
+font-size: .7em;
+}
 
 </style>
 
 <div class="content-frame">
-  <img src="<?= LOGO_URL?>" style="max-height: 80px; max-width: 80%"></img>
+  <img src="<?= LOGO_URL?>" style="max-height: 40px; max-width: 80%"></img>
   <div style="min-height: 375px;" class="row-fluid">
-    <div class="col-md-3 col-xs-6">
-      <h4>HFSM</h4>
-      <pre id="statelist"></pre>
+    <div class="col-md-3">
+	  <div class="row">
+  	    <div class="col-sm-6 col-md-12">
+	      <h4>HFSM</h4>
+	      <pre id="statelist"></pre>
+		  <span class="action">
+   	 	    <i class="fa fa-space-shuttle fa-2x" aria-hidden="true"></i><br/>
+			<small>Takeoff</small>
+		  </span>
+		  <!--span class="action">
+   	 	    <i class="fa fa-ambulance fa-2x" aria-hidden="true"></i><br/>
+			<small>RTL</small>
+		  </span-->
+		  <span class="action">
+   	 	    <i class="fa fa-wheelchair fa-2x" aria-hidden="true"></i><br/>
+			<small>Land</small>
+		  </span>
+		  <span class="action">
+   	 	    <i class="fa fa-cube fa-2x" aria-hidden="true"></i><br/>
+			<small>Drop</small>
+		  </span>
+	    </div>
+	    <div class="col-sm-6 col-md-12">
+	      <h4>Selection</h4>
+	      <pre id="selectioninfo"></pre>
+		  <span class="action">
+   	 	    <i class="fa fa-hand-grab-o fa-2x" aria-hidden="true"></i><br/>
+			<small>Pickup</small>
+		  </span>
+		  <span class="action">
+   	 	    <i class="fa fa-crosshairs fa-2x" aria-hidden="true"></i><br/>
+			<small>LandOn</small>
+		  </span>
+		  <span class="action">
+   	 	    <i class="fa fa-location-arrow fa-2x" aria-hidden="true"></i><br/>
+			<small>MoveTo</small>
+		  </span>
+	    </div>
+	  </div>
 	</div>
     <div class="col-md-9">
       <h4>Vis</h4>
@@ -44,7 +88,7 @@ opacity: 0.2;
 </div>
 <div style="position: fixed; bottom: 0px; width: 100%; margin: 0 10px; padding: 0">
     <h4>Map DB</h4>
-    <pre id="maplist" style="font-size: 10px; margin: 0" ></pre>
+    <pre id="maplist" style="font-size: 10px; margin: -5px -10px" ></pre>
   </div>
 </div>
 
@@ -67,9 +111,11 @@ var scale = 7;
 var width = scale*95;
 var height = scale*65;
 
+var inited = false;
+
 function initMap()
 {
-
+	inited = true;
 	var xScale = d3.scale.linear()
 		.domain([-(width/scale)/2, (width/scale)/2])
 		.range([0, width]);
@@ -108,14 +154,9 @@ svg.append("g")
 
 function updatemapobjects(mo)
 {
-	console.log(mo);
+	if(inited == false)
+		initMap();
 
-
-	// clear
-	//d3.select("#vis svg").remove();
-
-	// build
-	//var svg = d3.select("#vis").append("svg");
 	var svg = d3.select("#vis svg");
 
 	var cw = width/2;
@@ -133,13 +174,17 @@ function updatemapobjects(mo)
 		.attr("cy", function(d) { return (d[3] * scale) + ch; })
 		.attr("r", 0.2 * scale)
 		.style("stroke", function(d) { return getmapobjectcolor(d[24]); })
+		.on('click', function(d, i) { 
+				$("#selectioninfo").html(d[0] + '\n' + d[1]);
+		})
+		.append("svg:title")
+		.text(function(d) { return d[1]; })
 }
 
 $(function()
 {
 	$("aside li").removeClass("active");
 	$("#statetab").addClass("active");
-	initMap();
 	PM.Service.statelist();
 });
 </script>

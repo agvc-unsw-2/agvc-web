@@ -6,7 +6,7 @@ if($useLayout)
 	require_once("header.php");
 ?>
 <div class="content-frame col-md-12" id="sensorframe">
-  <img src="<?= LOGO_URL?>" style="max-height: 80px; max-width: 80%; display: block"></img>
+  <img src="<?= LOGO_URL?>" style="max-height: 40px; max-width: 80%; display: block"></img>
   <div class="row">
 
   <div class="col-md-12">
