@@ -66,7 +66,7 @@ if($useLayout)
 			<small>RTL</small>
 		  </span-->
 		  <span class="action inactive">
-   	 	    <i class="fa fa-wheelchair fa-2x" aria-hidden="true"></i><br/>
+   	 	    <i class="fa fa-fire-extinguisher fa-2x" aria-hidden="true"></i><br/>
 			<small>Land</small>
 		  </span>
 		  <span class="action inactive">
@@ -77,7 +77,7 @@ if($useLayout)
 	    <div class="col-sm-6 col-md-12">
 	      <h4>Selection</h4>
 	      <pre id="selectioninfo"></pre>
-		  <span class="action">
+		  <span class="action inactive">
    	 	    <i class="fa fa-hand-grab-o fa-2x" aria-hidden="true"></i><br/>
 			<small>Pickup</small>
 		  </span>
@@ -124,6 +124,10 @@ var width = scale*95;
 var height = scale*65;
 
 var inited = false;
+var xAxis = null;
+var yAxis = null;
+var objectContainer = null;
+var selectedID = -1;
 
 function initMap()
 {
@@ -136,7 +140,7 @@ function initMap()
 		.domain([-(height/scale)/2, (height/scale)/2])
 		.range([height, 0]);
 
-	var xAxis = d3.svg.axis()
+	xAxis = d3.svg.axis()
 		.scale(xScale)
 		.orient("bottom")
 		.innerTickSize(-height)
@@ -144,7 +148,7 @@ function initMap()
 		.tickPadding(10)
 		.ticks(width/scale/5);
 
-	var yAxis = d3.svg.axis()
+	yAxis = d3.svg.axis()
 		.scale(yScale)
 		.orient("right")
 		.innerTickSize(width)
@@ -154,6 +158,8 @@ function initMap()
 
 	var svg = d3.select("#vis svg");
 
+	objectContainer = svg.append("g");
+
 svg.append("g")
 		.attr("class", "x axis")
 		.attr("transform", "translate(0," + height + ")")
@@ -162,6 +168,30 @@ svg.append("g")
 		svg.append("g")
 		.attr("class", "y axis")
 		.call(yAxis)
+
+
+		var zoom = d3.behavior.zoom()
+		.x(xScale)
+		.y(yScale)
+		.scaleExtent([.5, 5])
+		.on("zoom", zoomed);
+	svg.call(zoom);
+
+	/*var drag = d3.behavior.drag()
+	.origin(function(d) { return d; })
+	.on("dragstart", dragstarted)
+	.on("drag", dragged)
+	.on("dragend", dragended);
+    svg.call(drag);*/
+
+}
+
+function zoomed() {
+	var svg = d3.select("#vis svg");
+	svg.select(".x.axis").call(xAxis);
+	svg.select(".y.axis").call(yAxis);
+
+	objectContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
 
 function updatemapobjects(mo)
@@ -169,25 +199,30 @@ function updatemapobjects(mo)
 	if(inited == false)
 		initMap();
 
-	var svg = d3.select("#vis svg");
+//	var svg = d3.select("#vis svg");
 
 	var cw = width/2;
 	var ch = height/2;
 
 	console.log(cw);
 
-	svg.selectAll("circle").remove();
+	objectContainer.selectAll("circle").remove();
 
-	svg.selectAll("circle")
+	objectContainer.selectAll("circle")
 		.data(mo)
 		.enter()
 		.append("circle")
 		.attr("cx", function(d) { return (d[2] * scale) + cw; })
 		.attr("cy", function(d) { return (d[3] * scale) + ch; })
-		.attr("r", 0.2 * scale)
-		.style("stroke", function(d) { return getmapobjectcolor(d[24]); })
+		.attr("r", 0.4 * scale)
+		.style("margin", "3px")
+		.style("stroke", function(d) { return selectedID == d[1] ? "#ccc" : "#ffffffff";})
+		.style("stroke-width", "2px")
+		.style("fill", function(d) { return getmapobjectcolor(d[24]); })
+		.style("fill-opacity", ".8")
 		.on('click', function(d, i) { 
-				$("#selectioninfo").html(d[0] + '\n' + d[1]);
+				$("#selectioninfo").html(d[0] + ' ' + d[1]);
+				selectedID = d[1];
 		})
 		.append("svg:title")
 		.text(function(d) { return d[1]; })

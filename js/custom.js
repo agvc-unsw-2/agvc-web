@@ -292,8 +292,8 @@ var PM = {
 							mapobjects[i] = mapobjects[i].split(' ');
 
 							for(j = 2; j < 24; j++) {
-								if(mapobjects[i][j].length > 7)
-									mapobjects[i][j] = mapobjects[i][j].substr(0, 7);
+								if(mapobjects[i][j].length > 5)
+									mapobjects[i][j] = mapobjects[i][j].substr(0, 5);
 							}
 
 							var text = mapobjects[i].join(' ');
