@@ -261,15 +261,46 @@ var PM = {
 					//$("#diagnosticpanel").html(
 				}
 				else if(obj['r'] == 'statelist') {
-					if('state' in obj)
-						$("#statelist").html(obj['state']);
+					if('state' in obj) {
+						var states = obj['state'].split('\n');
+
+						// find mission state
+						var missionStateIdx = -1;
+						for(i = 0; i < states.length; i++) {
+							if(states[i].includes("MissionState")) {
+								missionStateIdx = i;
+								break;
+							}
+						}
+
+						// highlight primary mission state
+						if(missionStateIdx >= 0 && missionStateIdx < states.length) {
+							states[missionStateIdx+1] = states[missionStateIdx+1].replace(/( +)(.*)/g, "$1<strong style='border: 1px dotted #000; padding: 2px'>$2</strong>");
+						}
+
+						// update for output
+						var statedata = states.join('\n');
+						$("#statelist").html(statedata);
+					}
 					if('map' in obj) {
-						var mapdata = obj['map'];
-						mapdata = mapdata.replace(/ +/g, ' ');
-						mapdata = mapdata.replace(/(GROUND_OBJECT [ \-\.0-9]+ )([YRGBO])/g, function(x, y, z)
-						{
+						var mapdata = obj['map'].trim().replace(/ +/g, ' ');
+						var maptext = '';
+
+						// fill in mapobjects for state.php
+						var mapobjects = mapdata.split('\n');
+						for(i = 0; i < mapobjects.length; i++) {
+							mapobjects[i] = mapobjects[i].split(' ');
+
+							for(j = 2; j < 24; j++) {
+								if(mapobjects[i][j].length > 7)
+									mapobjects[i][j] = mapobjects[i][j].substr(0, 7);
+							}
+
+							var text = mapobjects[i].join(' ');
+
+							// colorize text
 							var color = '#000';							
-							switch(z) {
+							switch(mapobjects[i][24]) {
 								case 'Y': color = '#990'; break;
 								case 'G': color = '#060'; break;
 								case 'R': color = '#600'; break;
@@ -277,10 +308,15 @@ var PM = {
 								case 'O': color = 'darkorange'; break;
 							}
 
-							return  "<font color='" + color + "'>" + x + "</font>";
+							text = "<font color='" + color + "'>" + text + "</font>\n";
+							maptext += text;
+						}
+						console.log(mapobjects);
+						if(typeof updatemapobjects === "function") {
+							updatemapobjects(mapobjects);
+						}
 
-						});
-						$("#maplist").html(mapdata);
+						$("#maplist").html(maptext);
 					}
 				}
 				else if(obj['r'] == 'log') {
