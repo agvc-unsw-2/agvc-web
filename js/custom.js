@@ -261,7 +261,10 @@ var PM = {
 					//$("#diagnosticpanel").html(
 				}
 				else if(obj['r'] == 'statelist') {
-					$("#statelist").html(obj['state']);
+					if('state' in obj)
+						$("#statelist").html(obj['state']);
+					if('map' in obj) 
+						$("#maplist").html(obj['map']);
 				}
 				else if(obj['r'] == 'log') {
 					var output = '';

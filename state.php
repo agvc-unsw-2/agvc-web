@@ -10,6 +10,8 @@ if($useLayout)
   <div style="min-height: 375px;">
   <pre id="statelist">
    </pre>
+  <pre id="maplist">
+   </pre>
   </div>
 </div>
 
