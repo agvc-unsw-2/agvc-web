@@ -263,8 +263,25 @@ var PM = {
 				else if(obj['r'] == 'statelist') {
 					if('state' in obj)
 						$("#statelist").html(obj['state']);
-					if('map' in obj) 
-						$("#maplist").html(obj['map']);
+					if('map' in obj) {
+						var mapdata = obj['map'];
+						mapdata = mapdata.replace(/ +/g, ' ');
+						mapdata = mapdata.replace(/(GROUND_OBJECT [ \-\.0-9]+ )([YRGBO])/g, function(x, y, z)
+						{
+							var color = '#000';							
+							switch(z) {
+								case 'Y': color = '#990'; break;
+								case 'G': color = '#060'; break;
+								case 'R': color = '#600'; break;
+								case 'B': color = '#006'; break;
+								case 'O': color = 'darkorange'; break;
+							}
+
+							return  "<font color='" + color + "'>" + x + "</font>";
+
+						});
+						$("#maplist").html(mapdata);
+					}
 				}
 				else if(obj['r'] == 'log') {
 					var output = '';
