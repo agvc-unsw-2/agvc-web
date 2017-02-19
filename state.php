@@ -7,34 +7,46 @@ if($useLayout)
 ?>
 <style>
 
-.axis path,
-	.axis line{
-fill: none;
-stroke: black;
-	}
+.axis path, .axis line{
+  fill: none;
+  stroke: black;
+}
 
 .line{
-fill: none;
-stroke: blue;
-		stroke-width: 2px;
+  fill: none;
+  stroke: blue;
+  stroke-width: 2px;
 }
 
 .tick text{
-	font-size: 12px;
+  font-size: 12px;
 }
 
 .tick line{
-opacity: 0.2;
-}
-.action 
-{
-display: inline-block; padding: 10px; width: 55px; margin: 0 10px; text-align: center
-}
-.action small
-{
-font-size: .7em;
+  opacity: 0.2;
 }
 
+.action 
+{
+  display: inline-block; 
+  padding: 3px; 
+  width: 60px; 
+  margin: 0 8px; 
+  text-align: center;
+  border: 1px dotted #999;
+  cursor: pointer;
+}
+
+.inactive
+{
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.action small
+{
+  font-size: .7em;
+}
 </style>
 
 <div class="content-frame">
@@ -53,11 +65,11 @@ font-size: .7em;
    	 	    <i class="fa fa-ambulance fa-2x" aria-hidden="true"></i><br/>
 			<small>RTL</small>
 		  </span-->
-		  <span class="action">
+		  <span class="action inactive">
    	 	    <i class="fa fa-wheelchair fa-2x" aria-hidden="true"></i><br/>
 			<small>Land</small>
 		  </span>
-		  <span class="action">
+		  <span class="action inactive">
    	 	    <i class="fa fa-cube fa-2x" aria-hidden="true"></i><br/>
 			<small>Drop</small>
 		  </span>
@@ -82,7 +94,7 @@ font-size: .7em;
 	</div>
     <div class="col-md-9">
       <h4>Vis</h4>
-	  <div id="vis" style="height: 480px; width: 700px"><svg style="width: 100%; height: 100%"></svg></div>
+	  <div id="vis" style="height: 480px; width: 700px"><svg style="width: 100%; height: 100%; cursor: crosshair"></svg></div>
     </div>
   </div>
 </div>
