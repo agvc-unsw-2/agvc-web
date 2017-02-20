@@ -157,7 +157,6 @@ function initMap()
 		.ticks(height/scale/5);
 
 	var svg = d3.select("#vis svg");
-
 	objectContainer = svg.append("g");
 
 svg.append("g")
@@ -194,6 +193,31 @@ function zoomed() {
 	objectContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
 
+var background_inited = false;
+
+function updatemapinfo(mi)
+{
+	if(background_inited == false)
+	{
+		var lat = mi['mapinfo']['origin_fix']['lat'];
+		var lon = mi['mapinfo']['origin_fix']['lng'];
+		var zoom = 19;
+		var meterpp = 156543.03392 * Math.cos(lat * Math.PI / 180) / Math.pow(2, zoom);
+		meterpp *= scale;
+		console.log(meterpp);
+
+		objectContainer.append("image")
+			.attr("xlink:href", "https://maps.googleapis.com/maps/api/staticmap?center="+lat+","+lon+"&zoom="+zoom+"&size=640x640&scale=2&format=jpg&maptype=satellite")
+			.attr("x",-640*meterpp + width/2)
+			.attr("y",-640*meterpp + height/2)
+			.attr("width",1280*meterpp + "")
+			.attr("height",1280*meterpp + "")
+			.style("opacity", "0.8")
+
+		background_inited = true;
+
+	}
+}
 function updatemapobjects(mo)
 {
 	if(inited == false)
@@ -203,8 +227,6 @@ function updatemapobjects(mo)
 
 	var cw = width/2;
 	var ch = height/2;
-
-	console.log(cw);
 
 	objectContainer.selectAll("circle").remove();
 

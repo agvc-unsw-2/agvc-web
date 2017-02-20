@@ -221,7 +221,13 @@ var PM = {
 
 				}
 				else if(obj['r'] == 'map') {
-					$("#mapframe")[0].contentWindow.postMessage(obj, "*"); 
+					if($("#mapframe").exists())
+						$("#mapframe")[0].contentWindow.postMessage(obj, "*"); 
+
+					if(typeof updatemapinfo === "function") {
+						updatemapinfo(obj);
+					}
+
 				}
 				else if(obj['r'] == 'diagnostics') {
 					//console.log(obj['diagnostics']);
@@ -366,6 +372,7 @@ var PM = {
 		},
 		statelist: function() {
 			PM.send({r: 'statelist'});
+			PM.send({r: 'map'});
 		},
 		diagnostics: function() {
 			PM.send({r: 'diagnostics'});
