@@ -261,7 +261,7 @@ var PM = {
 					//$("#diagnosticpanel").html(
 				}
 				else if(obj['r'] == 'statelist') {
-					if('state' in obj) {
+					if('state' in obj && obj['state'] !== null) {
 						var states = obj['state'].split('\n');
 
 						// find mission state
@@ -282,7 +282,7 @@ var PM = {
 						var statedata = states.join('\n');
 						$("#statelist").html(statedata);
 					}
-					if('map' in obj) {
+					if('map' in obj && obj['map'] !== null) {
 						var mapdata = obj['map'].trim().replace(/ +/g, ' ');
 						var maptext = '';
 

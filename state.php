@@ -230,6 +230,7 @@ function updatemapobjects(mo)
 
 $(function()
 {
+initMap();
 	$("aside li").removeClass("active");
 	$("#statetab").addClass("active");
 	PM.Service.statelist();
