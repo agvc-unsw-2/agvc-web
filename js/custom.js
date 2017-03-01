@@ -386,6 +386,9 @@ var PM = {
 		log: function() {
 			PM.send({r: 'log'});
 		},
+		call: function(uri, data) {
+			PM.send({r: 'callservice', uri: uri, data: data});
+		},
 	}
 
 

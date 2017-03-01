@@ -45,12 +45,12 @@
                             <span class="sidebar-text">Processes</span>
                         </a>
                     </li><!--/sidebar-item-->
-                    <li id="servicestab">
+                    <!--li id="servicestab">
                         <a href="services.php" data-pjax=".content-body" onclick="activateTab('servicestab')">
                             <i class="sidebar-icon fa fa-database"></i>
                             <span class="sidebar-text">Actions</span>
                         </a>
-                    </li><!--/sidebar-item-->
+                    </li--><!--/sidebar-item-->
                     <li id="maptab">
                         <a href="mapframe.php" data-pjax=".content-body" onclick="activateTab('maptab')">
                             <i class="sidebar-icon fa fa-map-marker"></i>

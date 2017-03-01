@@ -41,6 +41,7 @@ if($useLayout)
 {
   opacity: 0.3;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .action small
@@ -57,7 +58,7 @@ if($useLayout)
   	    <div class="col-sm-6 col-md-12">
 	      <h4>HFSM</h4>
 	      <pre id="statelist"></pre>
-		  <span class="action">
+		  <span class="action" onclick="selfaction('takeoff')">
    	 	    <i class="fa fa-space-shuttle fa-2x" aria-hidden="true"></i><br/>
 			<small>Takeoff</small>
 		  </span>
@@ -65,27 +66,27 @@ if($useLayout)
    	 	    <i class="fa fa-ambulance fa-2x" aria-hidden="true"></i><br/>
 			<small>RTL</small>
 		  </span-->
-		  <span class="action inactive">
+		  <span class="action" onclick="selfaction('land')">
    	 	    <i class="fa fa-fire-extinguisher fa-2x" aria-hidden="true"></i><br/>
 			<small>Land</small>
 		  </span>
-		  <span class="action inactive">
+		  <span class="action" onclick="selfaction('drop')">
    	 	    <i class="fa fa-cube fa-2x" aria-hidden="true"></i><br/>
 			<small>Drop</small>
 		  </span>
 	    </div>
 	    <div class="col-sm-6 col-md-12">
-	      <h4>Selection</h4>
+	      <h4>[FOR TEST] Selection</h4>
 	      <pre id="selectioninfo"></pre>
-		  <span class="action inactive">
+		  <span class="action inactive" onclick="action('pickup', selectedID)">
    	 	    <i class="fa fa-hand-grab-o fa-2x" aria-hidden="true"></i><br/>
 			<small>Pickup</small>
 		  </span>
-		  <span class="action">
+		  <span class="action" onclick="action('landon', selectedID)">
    	 	    <i class="fa fa-crosshairs fa-2x" aria-hidden="true"></i><br/>
 			<small>LandOn</small>
 		  </span>
-		  <span class="action">
+		  <span class="action" onclick="action('moveto', selectedID)">
    	 	    <i class="fa fa-location-arrow fa-2x" aria-hidden="true"></i><br/>
 			<small>MoveTo</small>
 		  </span>
@@ -105,6 +106,29 @@ if($useLayout)
 </div>
 
 <script type="text/javascript">
+var selectedID = -1;
+
+function selfaction(verb)
+{
+	switch(verb) {		
+		case 'land': PM.Service.call('/mbz/land', '{}'); break;
+		case 'takeoff': PM.Service.call('/mbz/takeoff', '{}'); break;
+		case 'drop': PM.Service.call('/mbz/drop', '{}'); break;
+	}
+}
+
+function action(verb, target)
+{
+	if(target > 0) {
+
+		switch(verb) {
+			case 'pickup': PM.Service.call('/mbz/test_mappayload', 'data: ' + target); break;
+			case 'landon': PM.Service.call('/mbz/test_maptarget', 'data: ' + target); break;
+			case 'moveto': PM.Service.call('/mbz/test_explore', 'data: ' + target); break;
+		}
+	}
+}
+
 function getmapobjectcolor(desc)
 {
 	var color = '#000';							
@@ -127,7 +151,6 @@ var inited = false;
 var xAxis = null;
 var yAxis = null;
 var objectContainer = null;
-var selectedID = -1;
 
 function initMap()
 {
