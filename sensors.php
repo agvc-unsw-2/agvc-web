@@ -31,7 +31,7 @@ if($useLayout)
     </div>
   </div>
 
-  <div class="col-md-6">
+  <div class="col-md-6" id="camera1panel">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Left </h3></div>
       <div class="panel-body" style="text-align: center">
@@ -39,7 +39,7 @@ if($useLayout)
       </div>
     </div>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-6" id="camera2panel">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Right </h3></div>
       <div class="panel-body" style="text-align: center">
@@ -48,7 +48,7 @@ if($useLayout)
     </div>
   </div>
 
-  <!--div class="col-md-6">
+  <div class="col-md-6 hidden" id="lidarpanel">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Lidar </h3></div>
       <div class="panel-body">
@@ -57,7 +57,7 @@ if($useLayout)
     </div>
   </div>
 
-  <div class="col-md-6 hidden-xs">
+  <!--div class="col-md-6 hidden-xs">
     <div id="panel-lidar" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Drive </h3></div>
       <div class="panel-body">
@@ -176,9 +176,19 @@ var rightOK = true;
 
 $("#camera1").on('load', function() {
 	leftOK = true;
+	$("#camera1panel").show();
+}).on('error', function() {
+	$("#camera1panel").hide();;
+   console.log('Left failed');
+   setTimeout(function() { leftOK = true; }, 5000);
 });
 $("#camera2").on('load', function() {
 	rightOK = true;
+	$("#camera2panel").show();
+}).on('error', function() {
+	$("#camera2panel").hide();;
+   console.log('Right failed');
+   setTimeout(function() { rightOK = true; }, 5000);
 });
 
 function drawlidar() {
@@ -191,7 +201,7 @@ var points = d3.range(1, 110).map(function(i) {
   return [i * 110 / 2500 + (3*3.141592653/4), 75 + .15* Math.random() * (height - 100)];
 });
 
-if(laserdata && 'ranges' in laserdata) {
+if(laserdata && 'ranges' in laserdata && laserdata['ranges'].length > 0) {
   points = [];
   angle = laserdata['min'];
   for(i = 0; i < laserdata['ranges'].length; i++) {
@@ -202,7 +212,8 @@ if(laserdata && 'ranges' in laserdata) {
 
     angle += laserdata['inc'];
   }
-}
+
+$("#lidarpanel").removeClass("hidden");
 
 d3.select("#lidar svg").remove();
 
@@ -292,6 +303,7 @@ var svg = d3.select("#lidar").append("svg")
       .attr("x", width/2 + (10*20) + 3)
       .attr("y", height-3)
       .text("10");
+}
 
 //$("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
 //$("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());

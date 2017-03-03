@@ -200,7 +200,7 @@ var PM = {
 					if('barrels' in obj['sensorinfo'] && 'pts' in obj['sensorinfo']['barrels']) 
 						barrels = obj['sensorinfo']['barrels']['pts'];
 
-					if('lines' in obj['sensorinfo']) { 
+					if('lines' in obj['sensorinfo'] && obj['sensorinfo']['lines'].length > 0) { 
 						lines = [];
 						line = [];
 						for(i = 0; i < obj['sensorinfo']['lines']['pts'].length; i+=2) {
