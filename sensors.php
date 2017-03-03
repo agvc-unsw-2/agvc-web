@@ -201,11 +201,12 @@ var points = d3.range(1, 110).map(function(i) {
   return [i * 110 / 2500 + (3*3.141592653/4), 75 + .15* Math.random() * (height - 100)];
 });
 
+var scaleFactor = 40;
 if(laserdata && 'ranges' in laserdata && laserdata['ranges'].length > 0) {
   points = [];
   angle = laserdata['min'];
   for(i = 0; i < laserdata['ranges'].length; i++) {
-    range = laserdata['ranges'][i] * 20;
+    range = laserdata['ranges'][i] * scaleFactor;
 
     if(range > 0)
       points.push([angle - (3.14159653/2), range]);
@@ -216,6 +217,7 @@ if(laserdata && 'ranges' in laserdata && laserdata['ranges'].length > 0) {
 $("#lidarpanel").removeClass("hidden");
 
 d3.select("#lidar svg").remove();
+
 
 var svg = d3.select("#lidar").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -238,7 +240,7 @@ var svg = d3.select("#lidar").append("svg")
       .append("circle")
       .attr("cx", function(d) { return d[1]*20 + width/2; })
       .attr("cy", function(d) { return -d[0]*20 + height - 15; })
-      .attr("r", .30 * 20)
+      .attr("r", .30 * scaleFactor)
       .style("stroke", "#cc0")
       .style("fill", "#cc0");
 
@@ -246,11 +248,11 @@ var svg = d3.select("#lidar").append("svg")
       .data(lines)
       .enter()
       .append("line")
-      .attr("x1", function(d) { return d[1]*20 + width/2; })
-      .attr("y1", function(d) { return -d[0]*20 + height - 15; })
-      .attr("x2", function(d) { return d[3]*20 + width/2; })
-      .attr("y2", function(d) { return -d[2]*20 + height - 15; })
-      .attr("stroke-width", .15 * 20)
+      .attr("x1", function(d) { return d[1]*scaleFactor + width/2; })
+      .attr("y1", function(d) { return -d[0]*scaleFactor + height - 15; })
+      .attr("x2", function(d) { return d[3]*scaleFactor + width/2; })
+      .attr("y2", function(d) { return -d[2]*scaleFactor + height - 15; })
+      .attr("stroke-width", .15 * scaleFactor)
       .attr("stroke", "#993");
 
   // vertical lines
@@ -274,33 +276,33 @@ var svg = d3.select("#lidar").append("svg")
   // vehicle line
   svg.append("line")
       .attr("x1", width/2)
-      .attr("y1", height-15  - (-0.04 * 20))
+      .attr("y1", height-15  - (-0.04 * scaleFactor))
       .attr("x2", width/2)
-      .attr("y2", height-15  + (1.0 * 20))
-      .attr("stroke-width", .8 * 20)
+      .attr("y2", height-15  + (1.0 * scaleFactor))
+      .attr("stroke-width", .8 * scaleFactor)
       .attr("stroke", "red");
 
   // distance line 5m
   svg.append("circle")
       .attr("cx", width/2)
       .attr("cy", height-15)
-      .attr("r", 5 * 20)
+      .attr("r", 5 * scaleFactor)
       .style("stroke", "#999");
 
   // distance line 10m
   svg.append("circle")
       .attr("cx", width/2)
       .attr("cy", height-15)
-      .attr("r", 10 * 20)
+      .attr("r", 10 * scaleFactor)
       .style("stroke", "#ccc");
 
   svg.append("text")
-      .attr("x", width/2 + (5*20) + 3)
+      .attr("x", width/2 + (5*scaleFactor) + 3)
       .attr("y", height-3)
       .text("5");
 
   svg.append("text")
-      .attr("x", width/2 + (10*20) + 3)
+      .attr("x", width/2 + (10*scaleFactor) + 3)
       .attr("y", height-3)
       .text("10");
 }
