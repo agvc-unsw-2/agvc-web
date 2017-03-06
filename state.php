@@ -76,7 +76,7 @@ if($useLayout)
 		  </span>
 	    </div>
 	    <div class="col-sm-6 col-md-12">
-	      <h4>[FOR TEST] Selection</h4>
+	      <h4>[FOR UAV] Object Selection</h4>
 	      <pre id="selectioninfo"></pre>
 		  <span class="action inactive" onclick="action('pickup', selectedID)">
    	 	    <i class="fa fa-hand-grab-o fa-2x" aria-hidden="true"></i><br/>
@@ -90,6 +90,24 @@ if($useLayout)
    	 	    <i class="fa fa-location-arrow fa-2x" aria-hidden="true"></i><br/>
 			<small>MoveTo</small>
 		  </span>
+	    </div>
+	    <div class="col-sm-6 col-md-12">
+	      <h4>[FOR UGV]</h4>
+		  <span class="action" onclick="selfaction('home')">
+   	 	    <i class="fa fa-blind fa-2x" aria-hidden="true"></i><br/>
+			<small>Home</small>
+		  </span>
+		  <div>
+		  X: <!--i class="fa fa-chevron-left" onclick="$('#armx').stepDown(0.01)"></i> <i class="fa fa-chevron-right" onclick="$('#armx').stepUp(0.01)"></i-->
+		  <input type="range" min="0" max="0.68" name="armxset" step="0.01" id="armxset" onchange="updatearm()">
+		  <input type="range" min="0" max="0.68" name="armx" step="0.01" id="armx" readonly disabled>
+		  Y: 
+		  <input type="range" min="0" max="0.40" name="armyset" step="0.01" id="armyset" onchange="updatearm()">
+		  <input type="range" min="0" max="0.40" name="army" step="0.01" id="army" readonly disabled>
+		  Z: 
+		  <input type="range" min="0" max="0.39" name="armzset" step="0.01" id="armzset" onchange="updatearm()">
+		  <input type="range" min="0" max="0.39" name="armz" step="0.01" id="armz" readonly disabled>
+		  </div>
 	    </div>
 	  </div>
 	</div>
@@ -108,12 +126,42 @@ if($useLayout)
 <script type="text/javascript">
 var selectedID = -1;
 
+var armsinited = false;
+
+function updatearm()
+{
+	if(armsinited == false)
+		return;
+
+	var x = $("#armxset").val();
+	var y = $("#armyset").val();
+	var z = $("#armzset").val();
+	console.log(x + " " + y + " " + z);
+
+	PM.Service.pub('/ugv_arm_node/set_position', 'geometry_msgs/PoseStamped', "pose:\n  position:\n    x: " + x + "\n    y: " + y + "\n    z: " + z);
+}
+
+function updatearmpos(x, y, z)
+{
+	$("#armx").val(x);
+	$("#army").val(y);
+	$("#armz").val(z);
+
+	if(armsinited == false) {
+		$("#armxset").val(x);
+		$("#armyset").val(y);
+		$("#armzset").val(z);
+		armsinited = true;
+	}
+}
+
 function selfaction(verb)
 {
 	switch(verb) {		
 		case 'land': PM.Service.call('/mbz/land', '{}'); break;
 		case 'takeoff': PM.Service.call('/mbz/takeoff', '{}'); break;
 		case 'drop': PM.Service.call('/mbz/drop', '{}'); break;
+		case 'home': PM.Service.call('/ugv_arm_node/home', '{}'); break;
 	}
 }
 

@@ -267,6 +267,7 @@ var PM = {
 					//$("#diagnosticpanel").html(
 				}
 				else if(obj['r'] == 'statelist') {
+					console.log(obj);
 					if('state' in obj && obj['state'] !== null) {
 						var states = obj['state'].split('\n');
 
@@ -287,6 +288,11 @@ var PM = {
 						// update for output
 						var statedata = states.join('\n');
 						$("#statelist").html(statedata);
+					}
+					if('armpos' in obj && obj['armpos'] !== null) {
+						if(typeof updatearmpos === "function") {
+							updatearmpos(obj['armpos'].pos.x, obj['armpos'].pos.y, obj['armpos'].pos.z);
+						}
 					}
 					if('map' in obj && obj['map'] !== null) {
 						var mapdata = obj['map'].trim().replace(/ +/g, ' ');
@@ -388,6 +394,9 @@ var PM = {
 		},
 		call: function(uri, data) {
 			PM.send({r: 'callservice', uri: uri, data: data});
+		},
+		pub: function(uri, type, data) {
+			PM.send({r: 'pubtopic', uri: uri, type: type, data: data});
 		},
 	}
 
