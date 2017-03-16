@@ -31,25 +31,25 @@ if($useLayout)
     </div>
   </div>
 
-  <div class="col-md-6" id="camera1panel">
-    <div id="panel-lidar" class="panel panel-default">
+  <div class="col-md-12" id="camera1panel">
+    <div id="panel-lidar1" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Left </h3></div>
       <div class="panel-body" style="text-align: center">
-        <img id="camera1" src="imgs/ring.gif" style="max-height: 360px; height: auto; width: 100%; object-fit: contain">
+        <img id="camera1" src="imgs/ring.gif" style="max-height: 480px; height: auto; width: 100%; object-fit: contain">
       </div>
     </div>
   </div>
-  <div class="col-md-6" id="camera2panel">
-    <div id="panel-lidar" class="panel panel-default">
+  <div class="col-md-12" id="camera2panel">
+    <div id="panel-lidar2" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Right </h3></div>
       <div class="panel-body" style="text-align: center">
-        <img id="camera2" src="imgs/ring.gif" style="max-height: 360px; height: auto; width: 100%; object-fit: contain">
+        <img id="camera2" src="imgs/ring.gif" style="max-height: 480px; height: auto; width: 100%; object-fit: contain">
       </div>
     </div>
   </div>
 
   <div class="col-md-6 hidden" id="lidarpanel">
-    <div id="panel-lidar" class="panel panel-default">
+    <div id="panel-lidar3" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Lidar </h3></div>
       <div class="panel-body">
         <div id="lidar"></div>              
@@ -57,14 +57,14 @@ if($useLayout)
     </div>
   </div>
 
-  <!--div class="col-md-6 hidden-xs">
-    <div id="panel-lidar" class="panel panel-default">
+  <div class="col-md-6 hidden-xs">
+    <div id="panel-lidar4" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Drive </h3></div>
       <div class="panel-body">
         <iframe frameborder=0 src="drive.php" style="height: 230px; min-height: 230px; width:100%" scrolling="false"></iframe>
       </div>
     </div>
-  </div-->
+  </div>
 
 
   <!--div class="col-md-6">
@@ -180,7 +180,7 @@ $("#camera1").on('load', function() {
 }).on('error', function() {
 	$("#camera1panel").hide();;
    console.log('Left failed');
-   setTimeout(function() { leftOK = true; }, 5000);
+   setTimeout(function() { leftOK = true; }, 3000);
 });
 $("#camera2").on('load', function() {
 	rightOK = true;
@@ -188,7 +188,7 @@ $("#camera2").on('load', function() {
 }).on('error', function() {
 	$("#camera2panel").hide();;
    console.log('Right failed');
-   setTimeout(function() { rightOK = true; }, 5000);
+   setTimeout(function() { rightOK = true; }, 3000);
 });
 
 function drawlidar() {
@@ -310,13 +310,15 @@ var svg = d3.select("#lidar").append("svg")
 //$("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
 //$("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
 if(leftOK) {
-	$("#camera1").attr('src', 'data/left.jpg?' + pad(framenum,4) + Math.random());
+	//$("#camera1").attr('src', 'data/left.jpg?' + pad(framenum,4) + Math.random());
+	$("#camera1").attr('src', 'data/resize.php?path=left.jpg&' + pad(framenum,4) + Math.random());
 	leftOK = false;
 } else {
 	console.log("Left camera frame skipped");
 }
 if(rightOK) {
-	$("#camera2").attr('src', 'data/right.jpg?' + pad(framenum,4) + Math.random());
+	//$("#camera2").attr('src', 'data/right.jpg?' + pad(framenum,4) + Math.random());
+	$("#camera2").attr('src', 'data/resize.php?path=right.jpg&' + pad(framenum,4) + Math.random());
 	rightOK = false;
 } else {
 	console.log("Right camera frame skipped");
@@ -343,7 +345,7 @@ $(function()
 	$("aside li").removeClass("active");
 	$("#sensorstab").addClass("active");
 
-  var updInt = setInterval(drawlidar, 200);
+  var updInt = setInterval(drawlidar, 50);
 $('#sensorframe').bind('destroyed', function() {
 	console.log("SensorFrame stopped");
 	clearInterval(updInt);
