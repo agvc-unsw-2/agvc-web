@@ -35,7 +35,7 @@ if($useLayout)
     <div id="panel-lidar1" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Left </h3></div>
       <div class="panel-body" style="text-align: center">
-        <img id="camera1" src="imgs/ring.gif" style="max-height: 480px; height: auto; width: 100%; object-fit: contain">
+        <img id="camera1" src="imgs/ring.gif" style="max-height: 480px; height: auto; width: 100%; object-fit: contain" class="rot270">
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@ if($useLayout)
     <div id="panel-lidar2" class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"> Camera Right </h3></div>
       <div class="panel-body" style="text-align: center">
-        <img id="camera2" src="imgs/ring.gif" style="max-height: 480px; height: auto; width: 100%; object-fit: contain">
+        <img id="camera2" src="imgs/ring.gif" style="max-height: 480px; height: auto; width: 100%; object-fit: contain" class="rot180">
       </div>
     </div>
   </div>

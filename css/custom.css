@@ -375,3 +375,32 @@ pre {
 .scroll {
 position: absolute; overflow:hidden; -webkit-overflow-scrolling: touch; top:0; left:0; bottom:0; right:0
 }
+
+.rot90 {
+	-webkit-transform: rotate(90deg);     /* Chrome and other webkit browsers */
+	-moz-transform: rotate(90deg);        /* FF */
+	-o-transform: rotate(90deg);          /* Opera */
+	-ms-transform: rotate(90deg);         /* IE9 */
+	transform: rotate(90deg);             /* W3C compliant browsers */
+
+} 
+
+.rot180 {
+	-webkit-transform: rotate(180deg);     /* Chrome and other webkit browsers */
+	-moz-transform: rotate(180deg);        /* FF */
+	-o-transform: rotate(180deg);          /* Opera */
+	-ms-transform: rotate(180deg);         /* IE9 */
+	transform: rotate(180deg);             /* W3C compliant browsers */
+
+	/* IE8 and below */
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=-1, M12=0, M21=0, M22=-1, DX=0, DY=0, SizingMethod='auto expand');
+} 
+
+.rot270 {
+	-webkit-transform: rotate(270deg);     /* Chrome and other webkit browsers */
+	-moz-transform: rotate(270deg);        /* FF */
+	-o-transform: rotate(270deg);          /* Opera */
+	-ms-transform: rotate(270deg);         /* IE9 */
+	transform: rotate(270deg);             /* W3C compliant browsers */
+
+} 
