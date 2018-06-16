@@ -132,10 +132,11 @@ passthru('/bin/df -h');
 </pre>
 			</div>    
 
-			<!--div class="col-md-6 col-sm-12">
-Shell:
-<iframe src="http://<?php echo $_SERVER['SERVER_ADDR']; ?>:4200" style="width:100%" />
-			</div-->    
+			<div class="col-md-6 col-sm-12">
+Platform Image Deploy:
+<?php include('deploy.php'); ?>
+
+			</div>    
 		</div>
 
 <script type="text/javascript">

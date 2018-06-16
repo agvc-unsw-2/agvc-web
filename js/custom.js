@@ -68,7 +68,12 @@ var PM = {
 				PM.socket.onopen = function(){
 					$("#aside").removeClass("bg-danger");
 					PM.message('<p class="event">Socket Status: '+PM.socket.readyState+' (open)');
-					fcbh = setInterval(fastTick, 200);
+                    
+                    if ($("#deploy_log_iframe").exists()) {
+                        PM.Service.deploy("/tmp/webdeploy.tar.gz");
+                    }
+
+                    fcbh = setInterval(fastTick, 200);
 					cbh = setInterval(tick, 2000);
 					scbh = setInterval(slowTick, 5000);
 					tick();
@@ -107,6 +112,7 @@ var PM = {
 				if($("#statuslist").exists()) PM.send('statuslist');
 				if($("#diagnosticspanel").exists()) PM.Service.diagnostics();
 				if($("#logpanel").exists()) PM.Service.log();
+
 			}
 
 			function slowTick() {
@@ -398,6 +404,9 @@ var PM = {
 		pub: function(uri, type, data) {
 			PM.send({r: 'pubtopic', uri: uri, type: type, data: data});
 		},
+        deploy: function(path) {
+            PM.send({r: 'deploy', path: path});
+        },
 	}
 
 
